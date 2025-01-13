@@ -1,0 +1,39 @@
+{
+	"name": "@talla-ui/lib-web-tools",
+	"version": "4.0.0-dev.1",
+	"publishConfig": {
+		"tag": "next"
+	},
+	"description": "Web tooling for use with the Tälla UI framework",
+	"author": "Jelmer Cormont",
+	"license": "MIT",
+	"type": "module",
+	"main": "lib/index.js",
+	"module": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"prettier": {
+		"useTabs": true
+	},
+	"scripts": {
+		"dev": "vite --host",
+		"prebuild": "rimraf lib",
+		"build": "tsc",
+		"watch": "tsc -w",
+		"prepublishOnly": "tsc"
+	},
+	"files": [
+		"lib"
+	],
+	"dependencies": {
+		"talla-ui": "next"
+	},
+	"devDependencies": {
+		"@talla-ui/web-handler": "next",
+		"@talla-ui/lib-web-tools": "file:.",
+		"@types/node": "^22.0.0",
+		"prettier": "*",
+		"rimraf": "^6.0.1",
+		"typescript": "5.5",
+		"vite": "^5.3.4"
+	}
+}

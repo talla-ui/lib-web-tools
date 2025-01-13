@@ -1,0 +1,12 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"jsx": "react",
+		"jsxFactory": "ui.jsx",
+		"baseUrl": ".",
+		"paths": { "~/*": ["./*"] },
+		"types": ["vite/client"]
+	},
+	"include": ["."]
+}
