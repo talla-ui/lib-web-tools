@@ -6,7 +6,7 @@ import {
 	ManagedList,
 	ManagedObject,
 	ui,
-	UIListView,
+	UIListViewEvent,
 	UIScrollContainer,
 	ViewComposite,
 	ViewEvent,
@@ -236,8 +236,8 @@ export class InspectPanelView extends ViewComposite.define({
 				: undefined;
 	}
 
-	protected onPropertyClick(e: ViewEvent) {
-		let item = UIListView.getSourceItem(e.source, PropertyInfo);
+	protected onPropertyClick(e: UIListViewEvent<PropertyInfo>) {
+		let item = e.data.listViewItem;
 		if (!item) return;
 		if (
 			e.data.event instanceof MouseEvent &&
@@ -252,8 +252,8 @@ export class InspectPanelView extends ViewComposite.define({
 		app.renderer?.schedule(() => this.fixScroll(), true);
 	}
 
-	protected onHistoryClick(e: ViewEvent) {
-		let item = UIListView.getSourceItem(e.source, PropertyInfo);
+	protected onHistoryClick(e: UIListViewEvent<PropertyInfo>) {
+		let item = e.data.listViewItem;
 		if (!item) return;
 		let found = false;
 		for (let it of this.history) {
@@ -265,8 +265,8 @@ export class InspectPanelView extends ViewComposite.define({
 		app.renderer?.schedule(() => this.fixScroll(), true);
 	}
 
-	protected onHighlightEnter(e: ViewEvent) {
-		let item = UIListView.getSourceItem(e.source, PropertyInfo);
+	protected onHighlightEnter(e: UIListViewEvent<PropertyInfo>) {
+		let item = e.data.listViewItem;
 		this.emit("HighlightView", { view: item?.view });
 	}
 

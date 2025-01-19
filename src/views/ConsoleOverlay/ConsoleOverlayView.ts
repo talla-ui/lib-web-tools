@@ -8,7 +8,7 @@ import {
 	ManagedList,
 	ui,
 	UICell,
-	UIListView,
+	UIListViewEvent,
 	UIScrollContainer,
 	UITextField,
 	ViewComposite,
@@ -306,8 +306,8 @@ export class ConsoleOverlayView extends ViewComposite {
 		}
 	}
 
-	protected onShowItem(e: ViewEvent) {
-		let item = UIListView.getSourceItem<LogMessage>(e.source)!;
+	protected onShowItem(e: UIListViewEvent<LogMessage>) {
+		let item = e.data.listViewItem;
 		let value = !item.data.length
 			? item.text
 			: item.data.length === 1

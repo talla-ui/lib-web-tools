@@ -7,9 +7,8 @@ import {
 	ManagedObject,
 	StringConvertible,
 	ui,
-	UIListView,
+	UIListViewEvent,
 	ViewComposite,
-	ViewEvent,
 } from "talla-ui";
 import { getViewForElement } from "../ViewPickerPanel/ViewPickerPanelView";
 import icons from "../icons";
@@ -248,13 +247,13 @@ export class IndexPanelView extends ViewComposite {
 		this.emit("InspectObject", { object: this.navigation });
 	}
 
-	protected onInspectView(e: ViewEvent) {
-		let item = UIListView.getSourceItem(e.source, InspectableObjectItem);
+	protected onInspectView(e: UIListViewEvent<InspectableObjectItem>) {
+		let item = e.data.listViewItem;
 		this.emit("InspectObject", { object: item?.object });
 	}
 
-	protected onInspectActivity(e: ViewEvent) {
-		let item = UIListView.getSourceItem(e.source, InspectableObjectItem);
+	protected onInspectActivity(e: UIListViewEvent<InspectableObjectItem>) {
+		let item = e.data.listViewItem;
 		this.emit("InspectObject", { object: item?.object });
 	}
 

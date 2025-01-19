@@ -16,10 +16,10 @@ To see all view composites in action, you'll need Git, Node.js and NPM. Follow t
 
 For information related to development and open source contributions, refer to the main Tälla UI repository on GitHub.
 
-[Tälla UI framework](https://github.com/talla-ui/talla)
+[Tälla UI framework](https://github.com/talla-ui/talla-ui)
 
 ## License
 
 This code is free and open source. Copyright and [MIT](https://opensource.org/licenses/MIT) license terms still apply.
 
-Copyright &copy; 2024 Jelmer Cormont
+Copyright &copy; 2025 Jelmer Cormont

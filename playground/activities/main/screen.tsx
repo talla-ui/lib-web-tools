@@ -51,8 +51,8 @@ export default (
 				Playground
 			</label>
 			<spacer height={32} />
-			<NavButton page="foo" title="Foo" icon={ui.icon("🐘")} />
-			<NavButton page="bar" title="Bar" icon={ui.icon("🐝")} />
+			<NavButton page="foo" title="Foo" icon={ui.icon("foo", "🐘")} />
+			<NavButton page="bar" title="Bar" icon={ui.icon("bar", "🐝")} />
 		</column>
 		<scroll>
 			<cell
@@ -72,8 +72,8 @@ export default (
 		>
 			<separator margin={0} />
 			<row align="center" padding={8}>
-				<MobileNavButton page="foo" title="Foo" icon={ui.icon("🐘")} />
-				<MobileNavButton page="bar" title="Bar" icon={ui.icon("🐝")} />
+				<MobileNavButton page="foo" title="Foo" icon={ui.icon("foo", "🐘")} />
+				<MobileNavButton page="bar" title="Bar" icon={ui.icon("bar", "🐝")} />
 			</row>
 		</cell>
 	</cell>

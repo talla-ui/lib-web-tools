@@ -4,6 +4,7 @@ import {
 	ManagedList,
 	ManagedObject,
 	UIListView,
+	UIListViewEvent,
 	ViewEvent,
 } from "talla-ui";
 import { FooDetailActivity } from "./FooDetailActivity";
@@ -47,9 +48,8 @@ export class FooActivity extends Activity {
 		return screen.create();
 	}
 
-	onGoToItem(e: ViewEvent) {
-		let item = UIListView.getSourceItem<FooItem>(e.source);
-		if (!item) return;
+	onGoToItem(e: UIListViewEvent<FooItem>) {
+		let item = e.data.listViewItem;
 		app.log.debug("Navigating to item", item.title);
 		app.navigate({ pageId: "foo", detail: item.title });
 	}
