@@ -1,8 +1,10 @@
 import {
+	$bind,
+	$either,
 	$list,
+	$strf,
 	$view,
 	app,
-	bind,
 	ManagedList,
 	ManagedObject,
 	StringConvertible,
@@ -42,7 +44,7 @@ class FoldView extends ViewComposite.define(
 							.boolean("folded")
 							.select(ui.icon.CHEVRON_NEXT, ui.icon.CHEVRON_DOWN),
 					}),
-					ui.label({ text: $view.bind("title"), bold: true }),
+					ui.label({ text: $view("title"), bold: true }),
 				),
 			),
 			ui.conditional({ state: $view.not("folded") }, ui.cell(...content)),
@@ -77,14 +79,11 @@ const InfoDetailRow = ViewComposite.define(
 				width: 120,
 				style: { shrink: 0 },
 			}),
-			ui.label(
-				$view.string("value").or($view.bind("showNone").select("<none>")),
-				{
-					fontSize: 12,
-					dim: $view.not("value"),
-					style: { grow: 1, shrink: 1 },
-				},
-			),
+			ui.label($view.string("value").or($view("showNone").select("<none>")), {
+				fontSize: 12,
+				dim: $view.not("value"),
+				style: { grow: 1, shrink: 1 },
+			}),
 			ui.label({
 				hidden: $view.not("chevron"),
 				icon: ui.icon.CHEVRON_NEXT,
@@ -117,10 +116,10 @@ export class IndexPanelView extends ViewComposite {
 								style: ui.style.BUTTON_ICON,
 							}),
 							ui.label(
-								bind.strf(
+								$strf(
 									"%i message#{/s}, %i error%2${plural||s}",
-									bind("log.numMessages"),
-									bind("log.numErrors"),
+									$bind("log.numMessages"),
+									$bind("log.numErrors"),
 								),
 								{
 									fontSize: 12,
@@ -137,7 +136,7 @@ export class IndexPanelView extends ViewComposite {
 					ui.list(
 						{ items: $view.list("activities") },
 						ui.use(InfoDetailRow, {
-							value: $list.bind("item.label"),
+							value: $list("item.label"),
 							chevron: true,
 							onClick: "InspectActivity",
 						}),
@@ -150,7 +149,7 @@ export class IndexPanelView extends ViewComposite {
 					ui.list(
 						{ items: $view.list("views") },
 						ui.use(InfoDetailRow, {
-							value: $list.bind("item.label"),
+							value: $list("item.label"),
 							chevron: true,
 							onClick: "InspectView",
 						}),
@@ -196,29 +195,28 @@ export class IndexPanelView extends ViewComposite {
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Cols",
-							value: bind
-								.either(
-									$view.boolean("viewport.col5").select("5+"),
-									$view.boolean("viewport.col4").select("4"),
-									$view.boolean("viewport.col3").select("3"),
-									$view.boolean("viewport.col2").select("2"),
-								)
-								.else("1"),
+							value: $either(
+								$view.boolean("viewport.col5").select("5+"),
+								$view.boolean("viewport.col4").select("4"),
+								$view.boolean("viewport.col3").select("3"),
+								$view.boolean("viewport.col2").select("2"),
+							).else("1"),
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Rows",
-							value: bind
-								.either(
-									$view.boolean("viewport.row5").select("5+"),
-									$view.boolean("viewport.row4").select("4"),
-									$view.boolean("viewport.row3").select("3"),
-									$view.boolean("viewport.row2").select("2"),
-								)
-								.else("1"),
+							value: $either(
+								$view.boolean("viewport.row5").select("5+"),
+								$view.boolean("viewport.row4").select("4"),
+								$view.boolean("viewport.row3").select("3"),
+								$view.boolean("viewport.row2").select("2"),
+							).else("1"),
 						}),
 					),
 				),
-				ui.cell({ hidden: bind("docked"), effect: ui.effect("DragModal") }),
+				ui.cell({
+					hidden: $bind.boolean("docked"),
+					effect: ui.effect("DragModal"),
+				}),
 			),
 		);
 	}

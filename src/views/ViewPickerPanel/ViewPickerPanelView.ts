@@ -1,4 +1,4 @@
-import { bind, ui, View, ViewComposite } from "talla-ui";
+import { $bind, ui, View, ViewComposite } from "talla-ui";
 import icons from "../icons";
 
 export function getViewForElement(elt?: Element) {
@@ -19,7 +19,10 @@ export class ViewPickerPanelView extends ViewComposite {
 			{
 				padding: 8,
 			},
-			ui.cell({ hidden: bind("docked"), effect: ui.effect("DragModal") }),
+			ui.cell({
+				hidden: $bind.boolean("docked"),
+				effect: ui.effect("DragModal"),
+			}),
 			ui.label({
 				icon: icons.selectElement,
 				iconSize: 32,
@@ -27,7 +30,10 @@ export class ViewPickerPanelView extends ViewComposite {
 			}),
 			ui.spacer(0, 16),
 			ui.label("Select a view to inspect", { dim: true }),
-			ui.cell({ hidden: bind("docked"), effect: ui.effect("DragModal") }),
+			ui.cell({
+				hidden: $bind.boolean("docked"),
+				effect: ui.effect("DragModal"),
+			}),
 		);
 	}
 

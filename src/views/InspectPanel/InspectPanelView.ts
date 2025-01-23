@@ -2,7 +2,6 @@ import {
 	$list,
 	$view,
 	app,
-	bind,
 	ManagedList,
 	ManagedObject,
 	ui,
@@ -10,6 +9,8 @@ import {
 	UIScrollContainer,
 	ViewComposite,
 	ViewEvent,
+	$strf,
+	$bind,
 } from "talla-ui";
 import { PropertyInfo } from "../../PropertyInfo";
 import icons from "../icons";
@@ -29,9 +30,8 @@ export class InspectPanelView extends ViewComposite.define({
 						ui.cell(
 							{
 								padding: { x: 8, y: 4 },
-								background: $list
-									.bind("item.value")
-									.equals($view.bind("object"))
+								background: $list("item.value")
+									.equals($view("object"))
 									.select(
 										ui.color.PRIMARY.mix(ui.color.BACKGROUND, 0.75),
 										ui.color.BACKGROUND.contrast(-0.1).alpha(0.5),
@@ -49,13 +49,12 @@ export class InspectPanelView extends ViewComposite.define({
 							},
 							ui.row(
 								ui.label({
-									icon: $list
-										.bind("item.value")
-										.equals($view.bind("object"))
+									icon: $list("item.value")
+										.equals($view("object"))
 										.select(ui.icon.CHEVRON_DOWN, ui.icon.CHEVRON_NEXT),
 									style: { shrink: 0 },
 								}),
-								ui.label(bind.strf(".%s", $list.string("item.key")), {
+								ui.label($strf(".%s", $list.string("item.key")), {
 									hidden: $list.not("item.key"),
 									style: { shrink: 0 },
 									fontSize: 12,
@@ -137,7 +136,7 @@ export class InspectPanelView extends ViewComposite.define({
 				),
 				ui.cell(
 					{
-						hidden: $view.bind("displayValue").matches(undefined),
+						hidden: $view("displayValue").matches(undefined),
 						layout: { clip: true, gravity: "start", distribution: "start" },
 						padding: 8,
 					},
@@ -152,7 +151,7 @@ export class InspectPanelView extends ViewComposite.define({
 					}),
 				),
 				ui.cell({
-					hidden: bind("docked"),
+					hidden: $bind.boolean("docked"),
 					effect: ui.effect("DragModal"),
 					style: { shrink: 1 },
 				}),

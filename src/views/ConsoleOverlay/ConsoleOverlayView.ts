@@ -1,9 +1,9 @@
 import * as talla_ui from "talla-ui";
 import {
 	$list,
+	$strf,
 	$view,
 	app,
-	bind,
 	ManagedEvent,
 	ManagedList,
 	ui,
@@ -105,7 +105,7 @@ export class ConsoleOverlayView extends ViewComposite {
 			ui.scroll(
 				ui.cell(),
 				ui.list(
-					{ items: $view.bind("list") },
+					{ items: $view("list") },
 					ui.cell(
 						{
 							padding: { x: 8, top: 16, bottom: 2 },
@@ -122,33 +122,29 @@ export class ConsoleOverlayView extends ViewComposite {
 							allowFocus: true,
 						},
 						ui.label(
-							bind.strf(
-								"%s %{?|= }%2$s",
-								$list.bind("item.time"),
-								$list.bind("item.var"),
-							),
+							$strf("%s %{?|= }%2$s", $list("item.time"), $list("item.var")),
 							{
 								fontSize: 10,
 								dim: true,
 								position: { gravity: "overlay", top: 2, start: 8 },
 							},
 						),
-						ui.label($list.bind("item.loc"), {
+						ui.label($list("item.loc"), {
 							fontSize: 10,
 							dim: true,
 							style: { grow: 1, textAlign: "end" },
 							position: { gravity: "overlay", top: 2, end: 4 },
 						}),
-						ui.label($list.bind("item.expr"), {
+						ui.label($list("item.expr"), {
 							hidden: $list.not("item.expr"),
 							width: "100%",
 							dim: true,
 							style: { fontFamily: "monospace", fontSize: 12 },
 						}),
-						ui.label($list.bind("item.text"), {
+						ui.label($list("item.text"), {
 							hidden: $list.not("item.text"),
 							width: "100%",
-							style: $list.bind("item.level").matches(4, 5).select(
+							style: $list("item.level").matches(4, 5).select(
 								{
 									fontSize: 12,
 									fontFamily: "monospace",
@@ -162,7 +158,7 @@ export class ConsoleOverlayView extends ViewComposite {
 								},
 							),
 						}),
-						ui.label($list.bind("item.dataDisplay"), {
+						ui.label($list("item.dataDisplay"), {
 							hidden: $list.not("item.dataDisplay.length"),
 							width: "100%",
 							padding: { start: 16 },

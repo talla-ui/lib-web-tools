@@ -1,4 +1,4 @@
-import { $activity, $view, bind, ui, ViewComposite } from "talla-ui";
+import { $activity, $strf, $view, ui, ViewComposite } from "talla-ui";
 
 const StatsLine = ViewComposite.define(
 	{ label: "", value: "" as unknown },
@@ -57,12 +57,12 @@ export default (
 				<StatsLine label="Name" value={$activity.string("item.title")} />
 				<StatsLine
 					label="Weight"
-					value={bind.strf("%n kg", $activity.number("item.weight"))}
+					value={$strf("%n kg", $activity.number("item.weight"))}
 				/>
 				<StatsLine label="Quantity" value={$activity.number("item.quantity")} />
 				<StatsLine
 					label="Total weight"
-					value={bind.strf("%n kg", $activity.number("item.total"))}
+					value={$strf("%n kg", $activity.number("item.total"))}
 				/>
 			</column>
 		</cell>

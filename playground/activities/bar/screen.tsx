@@ -43,7 +43,7 @@ export default (
 			<row spacing={0}>
 				<cell>
 					<label fontSize={64} style={countNumberStyle}>
-						{$activity.bind("count")}
+						{$activity("count")}
 					</label>
 				</cell>
 				<separator vertical margin={0} />

@@ -52,7 +52,7 @@ export class FloatOverlayView extends ViewComposite {
 				),
 			),
 			ui.separator({ margin: 0 }),
-			ui.scroll(ui.renderView({ view: $view.bind("inspectView") })),
+			ui.scroll(ui.renderView({ view: $view("inspectView") })),
 		);
 	}
 

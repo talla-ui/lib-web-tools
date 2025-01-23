@@ -1,4 +1,4 @@
-import { $view, bind, ui } from "talla-ui";
+import { $either, $view, ui } from "talla-ui";
 import { ClickForegroundEffect } from "../ClickForegroundEffect";
 import icons from "../icons";
 
@@ -42,7 +42,7 @@ const toolbarRow = ui.row(
 	ui.spacer(4),
 	ui.button({
 		hidden: $view.not("log.numErrors"),
-		label: $view.bind("log.numErrors"),
+		label: $view.number("log.numErrors"),
 		style: badgeButtonStyle,
 		onClick: "ShowErrors",
 	}),
@@ -54,7 +54,7 @@ const toolbarRow = ui.row(
 		onClick: "MoreMenu",
 	}),
 	ui.button({
-		hidden: $view.bind("docked"),
+		hidden: $view.boolean("docked"),
 		icon: ui.icon.CHEVRON_DOWN,
 		iconSize: 20,
 		style: ui.style.BUTTON_ICON,
@@ -66,8 +66,8 @@ export default ui.cell(
 	{
 		name: "WebToolsOverlay",
 		effect: ClickForegroundEffect,
-		position: $view.bind("overlayPosition"),
-		style: $view.bind("docked").select(
+		position: $view("overlayPosition"),
+		style: $view.boolean("docked").select(
 			{
 				width: 320,
 				background: ui.color.BACKGROUND,
@@ -88,7 +88,7 @@ export default ui.cell(
 	ui.cell(
 		{
 			effect: ui.effect("DragModal"),
-			hidden: $view.bind("mode").matches("minimized").not(),
+			hidden: $view("mode").matches("minimized").not(),
 			style: $view.not("log.numErrors").select(
 				{
 					borderRadius: 8,
@@ -113,7 +113,7 @@ export default ui.cell(
 	),
 	ui.cell(
 		{
-			hidden: $view.bind("mode").matches("minimized").or("docked"),
+			hidden: $view("mode").matches("minimized").or("docked"),
 			background: $view.not("docked").select(ui.color.BACKGROUND),
 			effect: ui.effect("DragModal"),
 			style: { grow: 0 },
@@ -130,10 +130,9 @@ export default ui.cell(
 	ui.animatedCell(
 		{
 			animationDuration: 100,
-			style: bind.either(
-				$view.bind("docked").select({ shrink: 1 }),
-				$view
-					.bind("mode")
+			style: $either(
+				$view.boolean("docked").select({ shrink: 1 }),
+				$view("mode")
 					.matches("minimized")
 					.select(
 						{ width: 0, height: 0 },
@@ -143,16 +142,16 @@ export default ui.cell(
 		},
 		ui.separator({ margin: 0 }),
 		ui.renderView({
-			view: $view.bind("mode").matches("index").and("indexView"),
+			view: $view("mode").matches("index").and("indexView"),
 		}),
 		ui.renderView({
-			view: $view.bind("mode").matches("inspect").and("inspectView"),
+			view: $view("mode").matches("inspect").and("inspectView"),
 		}),
 		ui.renderView({
-			view: $view.bind("mode").matches("picker").and("pickerView"),
+			view: $view("mode").matches("picker").and("pickerView"),
 		}),
 		ui.cell({
-			hidden: $view.bind("docked"),
+			hidden: $view.boolean("docked"),
 			style: { height: 4 },
 			position: { gravity: "overlay", bottom: 0, left: 0, right: 0 },
 			effect: ui.effect("DragModal"),

@@ -1,4 +1,4 @@
-import { Activity, app, bind, UIScrollContainer } from "talla-ui";
+import { Activity, app, $bind, UIScrollContainer } from "talla-ui";
 import screen from "./screen";
 
 export class MainActivity extends Activity {
@@ -9,7 +9,7 @@ export class MainActivity extends Activity {
 	}
 
 	protected async afterActiveAsync() {
-		bind("activities.activated").bindTo(this, (page) => {
+		$bind("activities.activated").bindTo(this, (page) => {
 			app.log.debug("Page activated", page?.title);
 			if (page !== this) this.page = page;
 			this.title = String(this.page?.title || "Web tools playground");

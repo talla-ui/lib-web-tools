@@ -1,4 +1,11 @@
-import { $viewport, bind, ui, UIIconResource, ViewComposite } from "talla-ui";
+import {
+	$viewport,
+	$navigation,
+	ui,
+	UIIconResource,
+	ViewComposite,
+	$activity,
+} from "talla-ui";
 
 const NavButton = ViewComposite.define(
 	{ page: "", title: "", icon: undefined as UIIconResource | undefined },
@@ -8,7 +15,7 @@ const NavButton = ViewComposite.define(
 			label={title}
 			icon={icon}
 			iconMargin={16}
-			pressed={bind("navigation.pageId").matches(page)}
+			pressed={$navigation("pageId").matches(page)}
 			style={ui.style.BUTTON_PLAIN.extend({
 				borderRadius: 4,
 				width: "100%",
@@ -29,7 +36,7 @@ const MobileNavButton = ViewComposite.define(
 			})}
 			navigateTo={page}
 			icon={icon}
-			pressed={bind("navigation.pageId").matches(page)}
+			pressed={$navigation("pageId").matches(page)}
 			label={"\n" + title}
 		/>
 	),
@@ -61,7 +68,7 @@ export default (
 				padding={$viewport.not("col3").select({ x: 4 })}
 				borderRadius={8}
 			>
-				<render view={bind("page.view")} />
+				<render view={$activity("page.view")} />
 			</cell>
 		</scroll>
 
