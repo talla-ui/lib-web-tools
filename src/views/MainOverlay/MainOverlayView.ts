@@ -24,11 +24,10 @@ export class MainOverlayView extends ViewComposite {
 		super();
 		this.log = logModel;
 		if (minimized) this.mode = "minimized";
-		this.restoreState();
-		app.renderer?.schedule(
-			() => setTimeout(() => this._fixElementOrder()),
-			true,
-		);
+		app.renderer?.schedule(async () => {
+			await this.restoreState();
+			setTimeout(() => this._fixElementOrder());
+		}, true);
 	}
 
 	protected defineView() {
@@ -49,16 +48,20 @@ export class MainOverlayView extends ViewComposite {
 	consoleView?: ConsoleOverlayView;
 	log: LogModel;
 
-	saveState() {
-		app.localData.write("webToolsOverlay", {
-			mode: this.mode,
-			dock: this._wasDocked,
-			console: this.consoleView?.evalHistory.slice(-100),
-		});
+	async saveState() {
+		try {
+			await app.localData.writeAsync("webToolsOverlay", {
+				mode: this.mode,
+				dock: this._wasDocked,
+				console: this.consoleView?.evalHistory.slice(-100),
+			});
+		} catch (e) {
+			app.log.error("Web tools: failed to save state", e);
+		}
 	}
 
-	restoreState() {
-		let [state] = app.localData.read("webToolsOverlay", {
+	async restoreState() {
+		let [state] = await app.localData.readAsync("webToolsOverlay", {
 			mode: { isString: {}, isOptional: true },
 			dock: { isString: {}, isOptional: true },
 		});

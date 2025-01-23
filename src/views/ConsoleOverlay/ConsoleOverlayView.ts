@@ -206,7 +206,9 @@ export class ConsoleOverlayView extends ViewComposite {
 		super();
 		this.log = logModel;
 		this.list = logModel.list;
-		this.restoreState();
+		app.renderer?.schedule(async () => {
+			await this.restoreState();
+		});
 	}
 
 	log: LogModel;
@@ -215,14 +217,18 @@ export class ConsoleOverlayView extends ViewComposite {
 	evalHistory: string[] = [];
 	historyPos?: number;
 
-	saveState() {
-		app.localData.write("webToolsConsole", {
-			history: this.evalHistory,
-		});
+	async saveState() {
+		try {
+			await app.localData.writeAsync("webToolsConsole", {
+				history: this.evalHistory,
+			});
+		} catch (err) {
+			app.log.error("Failed to save console state", { error: err });
+		}
 	}
 
-	restoreState() {
-		let [state] = app.localData.read("webToolsConsole", {
+	async restoreState() {
+		let [state] = await app.localData.readAsync("webToolsConsole", {
 			history: { isArray: { items: { isString: {} } } },
 		});
 		if (state) this.evalHistory = state.history;

@@ -1,4 +1,4 @@
-import { app, ManagedList, ManagedObject } from "talla-ui";
+import { app, LogWriter, ManagedList, ManagedObject } from "talla-ui";
 import { PropertyInfo } from "./PropertyInfo";
 
 let format = new Intl.DateTimeFormat(undefined, {
@@ -25,6 +25,7 @@ export class LogModel extends ManagedObject {
 		app.log.addHandler(
 			0,
 			(m) => {
+				// figure out the log location using an Error stack
 				let loc = "";
 				let s = new Error().stack?.split(/\n/);
 				while (s?.length) {
@@ -37,36 +38,11 @@ export class LogModel extends ManagedObject {
 						.trim();
 					break;
 				}
-				let expr = "";
-				let exprVar: string | undefined = undefined;
-				let data = m.data;
-				let text = m.message;
-				if (
-					m.data[0] &&
-					typeof m.data[0] === "object" &&
-					"_eval" in m.data[0]
-				) {
-					expr = m.data[0]._eval;
-					exprVar = m.data[0]._var;
-					data = [m.data[0].error || m.data[0].result];
-					text = String(m.data[0].error || "");
-				}
-				let listItem = Object.assign(new ManagedObject(), {
-					t: Date.now(),
-					time: format.format(new Date()),
-					expr,
-					var: exprVar,
-					text,
-					loc: expr ? "" : loc,
-					level: m.level,
-					isError: m.level >= 4,
-					data,
-					dataDisplay:
-						data.map((d) => PropertyInfo.getDisplayValue(d)).join("\n") ||
-						undefined,
-				});
-				this.numMessages++;
+
+				// add the message to the list
+				let listItem = this._makeListItem(m, loc);
 				this.list.add(listItem);
+				this.numMessages++;
 				if (m.level >= 4) {
 					this.numErrors++;
 					this.errorList.add(listItem);
@@ -85,4 +61,35 @@ export class LogModel extends ManagedObject {
 
 	numErrors = 0;
 	errorList = new ManagedList<LogMessage>();
+
+	private _makeListItem(m: LogWriter.LogMessageData, loc: string): LogMessage {
+		let expr = "";
+		let exprVar: string | undefined = undefined;
+		let data = m.data;
+		let text = m.message;
+		if (m.data[0] && typeof m.data[0] === "object" && "_eval" in m.data[0]) {
+			expr = m.data[0]._eval;
+			exprVar = m.data[0]._var;
+			data = [m.data[0].error || m.data[0].result];
+			text = String(m.data[0].error || "");
+		}
+		if (m.data.length === 1 && typeof m.data[0] === "string") {
+			text = (text ? text + " " : "") + m.data[0];
+			data = [];
+		}
+		return Object.assign(new ManagedObject(), {
+			t: Date.now(),
+			time: format.format(new Date()),
+			expr,
+			var: exprVar,
+			text,
+			loc: expr ? "" : loc,
+			level: m.level,
+			isError: m.level >= 4,
+			data,
+			dataDisplay:
+				data.map((d) => PropertyInfo.getDisplayValue(d)).join("\n") ||
+				undefined,
+		});
+	}
 }
