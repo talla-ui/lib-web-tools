@@ -349,7 +349,7 @@ export class MainOverlayView extends ViewComposite {
 		let highlightBox = this._highlightBox || document.createElement("div");
 		this._highlightBox = highlightBox;
 		highlightBox.dataset.name = "WebToolsHighlight";
-		highlightBox.style.position = "absolute";
+		highlightBox.style.position = "fixed";
 		highlightBox.style.background = "rgba(0, 136, 255, 0.3)";
 		highlightBox.style.boxShadow = "0 0 0px 2px #08f";
 		highlightBox.style.pointerEvents = "none";

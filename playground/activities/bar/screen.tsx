@@ -1,8 +1,8 @@
 import { $activity, $viewport, ui } from "talla-ui";
 
 const countNumberStyle = ui.style.LABEL.extend({
+	textAlign: "center",
 	tabularNums: true,
-	grow: 1,
 	bold: true,
 	padding: 16,
 });
@@ -32,12 +32,9 @@ export default (
 		<cell
 			background={ui.color.BACKGROUND.contrast(-0.1)}
 			borderRadius={16}
-			style={{ grow: 0 }}
+			grow={false}
 		>
-			<cell
-				style={{ height: 200 }}
-				background={ui.color.BACKGROUND.contrast(-0.05)}
-			>
+			<cell height={200} background={ui.color.BACKGROUND.contrast(-0.05)}>
 				<image url="https://picsum.photos/800/600" />
 			</cell>
 			<row spacing={0}>
@@ -47,7 +44,7 @@ export default (
 					</label>
 				</cell>
 				<separator vertical margin={0} />
-				<column layout={{ distribution: "fill" }}>
+				<column position={{ gravity: "stretch" }}>
 					<button
 						icon={ui.icon.CHEVRON_UP}
 						style={countButtonStyle}

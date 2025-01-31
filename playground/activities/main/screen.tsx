@@ -18,7 +18,6 @@ const NavButton = ViewComposite.define(
 			pressed={$navigation("pageId").matches(page)}
 			style={ui.style.BUTTON_PLAIN.extend({
 				borderRadius: 4,
-				width: "100%",
 				textAlign: "start",
 			})}
 		/>
@@ -51,7 +50,6 @@ export default (
 		<column
 			width={300}
 			padding={{ y: 32, x: 8 }}
-			align="start"
 			hidden={$viewport.not("col3")}
 		>
 			<label bold fontSize={16} padding={{ x: 8 }}>

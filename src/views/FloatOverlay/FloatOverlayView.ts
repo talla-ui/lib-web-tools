@@ -29,7 +29,7 @@ export class FloatOverlayView extends ViewComposite {
 			},
 			ui.cell(
 				{
-					style: { grow: 0 },
+					grow: false,
 					background: ui.color.BACKGROUND,
 					effect: ui.effect("DragModal"),
 				},

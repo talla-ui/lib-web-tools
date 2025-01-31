@@ -6,7 +6,8 @@ import { FooActivity } from "./activities/foo/FooActivity";
 import { MainActivity } from "./activities/main/MainActivity";
 
 const app = useWebContext((options) => {
-	options.theme.colors.set("Background", ui.color("#111"));
+	options.darkTheme = options.theme.clone();
+	options.darkTheme.colors.set("Background", ui.color("#111"));
 });
 
 setWebToolsToggleKey("I", { ctrl: true });

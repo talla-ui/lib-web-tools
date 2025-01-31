@@ -4,8 +4,7 @@ const StatsLine = ViewComposite.define(
 	{ label: "", value: "" as unknown },
 	() => (
 		<row padding={{ x: 16, y: 8 }}>
-			<label width={120}>{$view.string("label")}</label>
-			<spacer />
+			<label grow>{$view.string("label")}</label>
 			<label>{$view.string("value")}</label>
 		</row>
 	),

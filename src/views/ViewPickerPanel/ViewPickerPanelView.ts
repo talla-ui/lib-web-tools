@@ -27,9 +27,10 @@ export class ViewPickerPanelView extends ViewComposite {
 				icon: icons.selectElement,
 				iconSize: 32,
 				iconColor: ui.color.PRIMARY.alpha(0.8),
+				align: "center",
 			}),
 			ui.spacer(0, 16),
-			ui.label("Select a view to inspect", { dim: true }),
+			ui.label("Select a view to inspect", { dim: true, align: "center" }),
 			ui.cell({
 				hidden: $bind.boolean("docked"),
 				effect: ui.effect("DragModal"),

@@ -29,6 +29,8 @@ export class InspectPanelView extends ViewComposite.define({
 						{ items: $view.list("history") },
 						ui.cell(
 							{
+								height: 32,
+								grow: false,
 								padding: { x: 8, y: 4 },
 								background: $list("item.value")
 									.equals($view("object"))
@@ -37,8 +39,6 @@ export class InspectPanelView extends ViewComposite.define({
 										ui.color.BACKGROUND.contrast(-0.1).alpha(0.5),
 									),
 								style: {
-									height: 32,
-									grow: 0,
 									borderThickness: { bottom: 1 },
 									borderColor: ui.color.TEXT.alpha(0.5),
 									css: { cursor: "pointer" },
@@ -78,10 +78,10 @@ export class InspectPanelView extends ViewComposite.define({
 					{ items: $view.list("properties") },
 					ui.cell(
 						{
+							height: 32,
+							grow: false,
 							padding: { x: 8, y: 4 },
 							style: {
-								height: 32,
-								grow: 0,
 								borderThickness: { bottom: 1 },
 								borderColor: ui.color.SEPARATOR,
 								css: { cursor: "pointer" },
@@ -89,7 +89,11 @@ export class InspectPanelView extends ViewComposite.define({
 							background: $list
 								.boolean("item.listItem")
 								.select(ui.color.TEXT.alpha(0.05)),
-							layout: { axis: "horizontal", distribution: "start" },
+							layout: {
+								axis: "horizontal",
+								gravity: "center",
+								distribution: "start",
+							},
 							onClick: "PropertyClick",
 							onMouseEnter: "HighlightEnter",
 							onMouseLeave: "HighlightLeave",
@@ -97,8 +101,8 @@ export class InspectPanelView extends ViewComposite.define({
 						ui.label({
 							hidden: $list.not("item.isList"),
 							icon: ui.icon.CHEVRON_DOWN,
-							iconSize: 12,
-							position: { gravity: "overlay", top: 0, start: 104 },
+							iconSize: 16,
+							position: { gravity: "overlay", top: 4, start: 104 },
 						}),
 						ui.label({
 							hidden: $list.not("item.view"),
@@ -116,21 +120,12 @@ export class InspectPanelView extends ViewComposite.define({
 							bold: $list.boolean("item.builtin"),
 						}),
 						ui.label($list.string("item.display"), {
-							style: $list.boolean("item.invalid").select(
-								{
-									grow: 0,
-									opacity: 0.85,
-									fontSize: 12,
-									strikeThrough: true,
-								},
-								{
-									grow: 0,
-									opacity: 0.85,
-									fontSize: 12,
-								},
-							),
+							style: $list
+								.boolean("item.invalid")
+								.select({ strikeThrough: true }),
+							fontSize: 12,
 							padding: $list.boolean("item.listItem").select({ start: 120 }),
-							dim: $list.boolean("item.private").else(undefined),
+							dim: $list.boolean("item.private").else(0.85),
 						}),
 					),
 				),
@@ -144,6 +139,7 @@ export class InspectPanelView extends ViewComposite.define({
 					ui.label($view.string("displayValue"), {
 						style: {
 							fontFamily: "monospace",
+							fontSize: 12,
 							userSelect: true,
 							lineBreakMode: "pre-wrap",
 							css: { wordBreak: "break-all" },

@@ -24,7 +24,7 @@ class FoldView extends ViewComposite.define(
 	{ title: StringConvertible.EMPTY, folded: false },
 	(_, ...content) =>
 		ui.cell(
-			{ style: { grow: 0 }, padding: { bottom: 8 } },
+			{ grow: false, padding: { bottom: 8 } },
 			ui.cell(
 				{
 					textColor: ui.color.PRIMARY,
@@ -77,12 +77,11 @@ const InfoDetailRow = ViewComposite.define(
 				hidden: $view.not("label"),
 				fontSize: 12,
 				width: 120,
-				style: { shrink: 0 },
 			}),
 			ui.label($view.string("value").or($view("showNone").select("<none>")), {
 				fontSize: 12,
 				dim: $view.not("value"),
-				style: { grow: 1, shrink: 1 },
+				grow: true,
 			}),
 			ui.label({
 				hidden: $view.not("chevron"),
@@ -121,10 +120,7 @@ export class IndexPanelView extends ViewComposite {
 									$bind("log.numMessages"),
 									$bind("log.numErrors"),
 								),
-								{
-									fontSize: 12,
-									style: { grow: 1 },
-								},
+								{ fontSize: 12 },
 							),
 						),
 					),

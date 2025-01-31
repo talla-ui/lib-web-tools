@@ -50,12 +50,12 @@ export class ConsoleOverlayView extends ViewComposite {
 			},
 			ui.cell(
 				{
-					style: { grow: 0 },
+					grow: false,
 					background: ui.color.BACKGROUND,
 					effect: ui.effect("DragModal"),
 				},
 				ui.row(
-					{ padding: { start: 8, end: 4, y: 2 }, spacing: 4 },
+					{ height: 40, padding: { start: 8, end: 4 }, spacing: 4 },
 					ui.label("Console", { bold: true }),
 					ui.spacer(8),
 					ui.button({
@@ -88,6 +88,7 @@ export class ConsoleOverlayView extends ViewComposite {
 								borderThickness: 0,
 								padding: { start: 24, end: 4, y: 4 },
 								fontSize: 12,
+								height: 32,
 							}),
 							onChange: "FilterSearch",
 						}),
@@ -166,7 +167,7 @@ export class ConsoleOverlayView extends ViewComposite {
 						}),
 					),
 					ui.cell({
-						style: { grow: 0 },
+						grow: false,
 						name: "WebToolsConsoleList",
 						accessibleRole: "list",
 						allowKeyboardFocus: true,
@@ -187,6 +188,7 @@ export class ConsoleOverlayView extends ViewComposite {
 					width: "100%",
 					style: ui.style.TEXTFIELD.override({
 						borderThickness: 0,
+						height: 28,
 						padding: { start: 24, y: 4 },
 						fontFamily: "monospace",
 						fontSize: 12,

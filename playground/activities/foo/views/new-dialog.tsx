@@ -3,6 +3,7 @@ import { $activity, ui } from "talla-ui";
 export default (
 	<cell
 		layout={{ distribution: "start" }}
+		position={{ gravity: "center" }}
 		style={{ width: 450, maxWidth: "100%" }}
 		padding={$activity
 			.boolean("showPage")
@@ -22,14 +23,14 @@ export default (
 		</row>
 		<spacer height={16} />
 
-		<column align="start" spacing={4}>
+		<column spacing={4}>
 			<label dim onPress="RequestFocusNext">
 				Name
 			</label>
-			<textfield formField="title" width="100%" requestFocus />
+			<textfield formField="title" requestFocus />
 		</column>
 		<spacer height={16} />
-		<column align="start" spacing={4}>
+		<column spacing={4}>
 			<label dim onPress="RequestFocusNext">
 				Quantity
 			</label>
@@ -52,12 +53,10 @@ export default (
 		</row>
 
 		<column hidden={$activity.not("showPage")} spacing={8}>
-			<button onClick="Save" width="100%" primary>
+			<button onClick="Save" primary>
 				Save
 			</button>
-			<button onClick="Cancel" width="100%">
-				Cancel
-			</button>
+			<button onClick="Cancel">Cancel</button>
 		</column>
 	</cell>
 );

@@ -27,11 +27,15 @@ export default (
 		<row height={48}>
 			<label bold>All items</label>
 		</row>
-		<cell background={ui.color.BACKGROUND.contrast(-0.1)} borderRadius={8}>
+		<cell
+			background={ui.color.BACKGROUND.contrast(-0.1)}
+			borderRadius={8}
+			grow={false}
+		>
 			<list items={$activity.list("items")}>
 				<cell style={{ css: { cursor: "pointer" } }} onClick="GoToItem">
 					<row height={40} padding={{ start: 12, end: 8 }}>
-						<label text={$list.string("item.title")} width="100%" />
+						<label text={$list.string("item.title")} grow />
 						<label icon={ui.icon.CHEVRON_NEXT} iconSize={20} />
 					</row>
 				</cell>
