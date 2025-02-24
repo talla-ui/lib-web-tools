@@ -1,6 +1,6 @@
 {
 	"name": "@talla-ui/lib-web-tools",
-	"version": "4.0.0-dev.6",
+	"version": "4.0.0-dev.7",
 	"publishConfig": {
 		"tag": "next"
 	},
