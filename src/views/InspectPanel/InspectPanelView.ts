@@ -2,12 +2,12 @@ import {
 	$list,
 	$view,
 	app,
-	ManagedList,
-	ManagedObject,
+	ObservedList,
+	ObservedObject,
 	ui,
 	UIListViewEvent,
 	UIScrollContainer,
-	ViewComposite,
+	UIComponent,
 	ViewEvent,
 	$strf,
 	$bind,
@@ -15,7 +15,7 @@ import {
 import { PropertyInfo } from "../../PropertyInfo";
 import icons from "../icons";
 
-export class InspectPanelView extends ViewComposite.define({
+export class InspectPanelView extends UIComponent.define({
 	object: undefined as unknown,
 }) {
 	protected defineView() {
@@ -155,8 +155,8 @@ export class InspectPanelView extends ViewComposite.define({
 		);
 	}
 
-	history = new ManagedList<PropertyInfo>();
-	properties = new ManagedList<PropertyInfo>();
+	history = new ObservedList<PropertyInfo>();
+	properties = new ObservedList<PropertyInfo>();
 	displayValue?: string;
 
 	setObject(object: unknown) {
@@ -193,7 +193,7 @@ export class InspectPanelView extends ViewComposite.define({
 
 	protected update(force?: boolean) {
 		for (let item of this.history) {
-			if (item.value instanceof ManagedObject && item.value.isUnlinked()) {
+			if (item.value instanceof ObservedObject && item.value.isUnlinked()) {
 				item.invalid = true;
 			}
 		}

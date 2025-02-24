@@ -1,9 +1,9 @@
-import { $view, ui, UICell, ViewComposite } from "talla-ui";
+import { $view, ui, UICell, UIComponent } from "talla-ui";
 import { ClickForegroundEffect } from "../ClickForegroundEffect";
 import { InspectPanelView } from "../InspectPanel/InspectPanelView";
 import icons from "../icons";
 
-export class FloatOverlayView extends ViewComposite {
+export class FloatOverlayView extends UIComponent {
 	protected defineView() {
 		return ui.cell(
 			{

@@ -5,22 +5,22 @@ import {
 	$strf,
 	$view,
 	app,
-	ManagedList,
-	ManagedObject,
+	ObservedList,
+	ObservedObject,
 	StringConvertible,
 	ui,
 	UIListViewEvent,
-	ViewComposite,
+	UIComponent,
 } from "talla-ui";
 import { getViewForElement } from "../ViewPickerPanel/ViewPickerPanelView";
 import icons from "../icons";
 
-class InspectableObjectItem extends ManagedObject {
+class InspectableObjectItem extends ObservedObject {
 	label?: string;
 	object?: unknown;
 }
 
-class FoldView extends ViewComposite.define(
+const FoldView = UIComponent.define(
 	{ title: StringConvertible.EMPTY, folded: false },
 	(_, ...content) =>
 		ui.cell(
@@ -49,13 +49,14 @@ class FoldView extends ViewComposite.define(
 			),
 			ui.conditional({ state: $view.not("folded") }, ui.cell(...content)),
 		),
-) {
-	onToggleFold() {
-		this.folded = !this.folded;
-	}
-}
+	(v) => ({
+		ToggleFold() {
+			v.folded = !v.folded;
+		},
+	}),
+);
 
-const InfoDetailRow = ViewComposite.define(
+const InfoDetailRow = UIComponent.define(
 	{
 		label: StringConvertible.EMPTY,
 		value: undefined as unknown,
@@ -92,7 +93,7 @@ const InfoDetailRow = ViewComposite.define(
 	),
 );
 
-export class IndexPanelView extends ViewComposite {
+export class IndexPanelView extends UIComponent {
 	protected defineView() {
 		return ui.cell(
 			{ style: { shrink: 1 } },
@@ -219,8 +220,8 @@ export class IndexPanelView extends ViewComposite {
 
 	navigation = app.navigation;
 	viewport = app.renderer?.viewport;
-	activities = new ManagedList<InspectableObjectItem>();
-	views = new ManagedList<InspectableObjectItem>();
+	activities = new ObservedList<InspectableObjectItem>();
+	views = new ObservedList<InspectableObjectItem>();
 
 	protected beforeRender() {
 		let updateInterval = setInterval(() => {
@@ -292,7 +293,7 @@ export class IndexPanelView extends ViewComposite {
 						if (/WebTools/.test(view.name as string)) continue;
 						label += " " + view.name;
 					}
-					let parentObject = ManagedObject.whence(view);
+					let parentObject = ObservedObject.whence(view);
 					if (parentObject) {
 						label += ` (${parentObject.constructor.name})`;
 					}

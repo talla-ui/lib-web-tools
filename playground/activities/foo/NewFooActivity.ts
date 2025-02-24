@@ -1,4 +1,4 @@
-import { Activity, FormContext, ManagedObject, app } from "talla-ui";
+import { Activity, FormContext, ObservedObject, app } from "talla-ui";
 import newDialog from "./views/new-dialog";
 import { FooItem } from "./FooActivity";
 
@@ -30,7 +30,7 @@ export class NewFooActivity extends Activity {
 		}
 		let { title, quantity } = values;
 		let weight = Math.floor(Math.random() * 100);
-		this.item = Object.assign(new ManagedObject(), {
+		this.item = Object.assign(new ObservedObject(), {
 			title,
 			quantity,
 			weight,

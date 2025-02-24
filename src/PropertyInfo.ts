@@ -1,11 +1,11 @@
 import {
-	ManagedList,
+	ObservedList,
 	LazyString,
 	UIColor,
-	UIComponent,
-	ManagedObject,
+	UIRenderable,
+	ObservedObject,
 	Activity,
-	ViewComposite,
+	UIComponent,
 	UIContainer,
 	UIButton,
 	UILabel,
@@ -20,7 +20,7 @@ type PropertyMap = Map<string, (it: PropertyInfo) => PropertyInfo>;
 
 const BUILTINS = new Map<Function, string[]>([
 	[Activity, ["title", "view"]],
-	[ViewComposite, ["body"]],
+	[UIComponent, ["body"]],
 	[UIContainer, ["content"]],
 	[UIButton, ["label", "icon"]],
 	[UILabel, ["text", "icon"]],
@@ -55,7 +55,7 @@ function getPromiseStatus(promise: Promise<any>) {
 	return "(resolved)";
 }
 
-export class PropertyInfo extends ManagedObject {
+export class PropertyInfo extends ObservedObject {
 	static getDisplayValue(value: any, ignoreObject?: boolean): string {
 		// handle simple types first
 		if (value === undefined) return "undefined";
@@ -87,8 +87,8 @@ export class PropertyInfo extends ManagedObject {
 		if (value instanceof Date) {
 			return "<Date> " + +value;
 		}
-		if (value instanceof ManagedList) {
-			return "<ManagedList> count = " + value.count;
+		if (value instanceof ObservedList) {
+			return "<ObservedList> count = " + value.count;
 		}
 		if (value instanceof LazyString) {
 			return "<LazyString> " + value.toString();
@@ -96,7 +96,7 @@ export class PropertyInfo extends ManagedObject {
 		if (value instanceof UIColor) {
 			return "<UIColor> " + value.toString();
 		}
-		if (value instanceof UIComponent) {
+		if (value instanceof UIRenderable) {
 			return (
 				"<" +
 				value.constructor.name +
@@ -142,7 +142,7 @@ export class PropertyInfo extends ManagedObject {
 			if (
 				Array.isArray(value) ||
 				value instanceof Set ||
-				value instanceof ManagedList ||
+				value instanceof ObservedList ||
 				value instanceof ActivityList
 			) {
 				return new Map(
@@ -202,7 +202,7 @@ export class PropertyInfo extends ManagedObject {
 					let isBuiltin = builtins?.includes(key);
 					result.set(key, (it) => it.setValue(v, isPrivate, isBuiltin));
 					if (
-						(v instanceof ManagedList || v instanceof ActivityList) &&
+						(v instanceof ObservedList || v instanceof ActivityList) &&
 						v.count &&
 						v.count < 20
 					) {
@@ -216,7 +216,7 @@ export class PropertyInfo extends ManagedObject {
 				}
 				isPrototype = true;
 				cur = Object.getPrototypeOf(cur);
-				if (cur === Object.prototype || cur === ManagedObject.prototype) break;
+				if (cur === Object.prototype || cur === ObservedObject.prototype) break;
 			}
 		}
 		return result;
@@ -257,7 +257,7 @@ export class PropertyInfo extends ManagedObject {
 				: value instanceof Activity
 					? value.view
 					: undefined;
-		this.invalid = value instanceof ManagedObject && value.isUnlinked();
+		this.invalid = value instanceof ObservedObject && value.isUnlinked();
 		return this;
 	}
 }

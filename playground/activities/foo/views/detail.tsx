@@ -1,6 +1,6 @@
-import { $activity, $strf, $view, ui, ViewComposite } from "talla-ui";
+import { $activity, $strf, $view, ui, UIComponent } from "talla-ui";
 
-const StatsLine = ViewComposite.define(
+const StatsLine = UIComponent.define(
 	{ label: "", value: "" as unknown },
 	() => (
 		<row padding={{ x: 16, y: 8 }}>

@@ -3,11 +3,11 @@ import {
 	$navigation,
 	ui,
 	UIIconResource,
-	ViewComposite,
+	UIComponent,
 	$activity,
 } from "talla-ui";
 
-const NavButton = ViewComposite.define(
+const NavButton = UIComponent.define(
 	{ page: "", title: "", icon: undefined as UIIconResource | undefined },
 	({ page, title, icon }) => (
 		<button
@@ -24,7 +24,7 @@ const NavButton = ViewComposite.define(
 	),
 );
 
-const MobileNavButton = ViewComposite.define(
+const MobileNavButton = UIComponent.define(
 	{ page: "", title: "", icon: undefined as UIIconResource | undefined },
 	({ page, title, icon }) => (
 		<button
@@ -60,12 +60,7 @@ export default (
 			<NavButton page="bar" title="Bar" icon={ui.icon("bar", "🐝")} />
 		</column>
 		<scroll>
-			<cell
-				background={ui.color.BACKGROUND}
-				margin={$viewport.not("col3").select(-8, { end: 8, top: 8 })}
-				padding={$viewport.not("col3").select({ x: 4 })}
-				borderRadius={8}
-			>
+			<cell background={ui.color.BACKGROUND} borderRadius={8}>
 				<render view={$activity("page.view")} />
 			</cell>
 		</scroll>

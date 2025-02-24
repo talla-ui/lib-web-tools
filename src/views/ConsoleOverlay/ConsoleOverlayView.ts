@@ -4,14 +4,14 @@ import {
 	$strf,
 	$view,
 	app,
-	ManagedEvent,
-	ManagedList,
+	ObservedEvent,
+	ObservedList,
 	ui,
 	UICell,
 	UIListViewEvent,
 	UIScrollContainer,
 	UITextField,
-	ViewComposite,
+	UIComponent,
 	ViewEvent,
 } from "talla-ui";
 import { LogMessage, LogModel } from "../../LogModel";
@@ -23,7 +23,7 @@ const filterButtonStyle = ui.style.BUTTON_SMALL.extend({
 	background: ui.color.CLEAR,
 });
 
-export class ConsoleOverlayView extends ViewComposite {
+export class ConsoleOverlayView extends UIComponent {
 	protected defineView() {
 		return ui.cell(
 			{
@@ -214,7 +214,7 @@ export class ConsoleOverlayView extends ViewComposite {
 	}
 
 	log: LogModel;
-	list: ManagedList<LogMessage>;
+	list: ObservedList<LogMessage>;
 	errorFilter = false;
 	evalHistory: string[] = [];
 	historyPos?: number;
@@ -253,7 +253,7 @@ export class ConsoleOverlayView extends ViewComposite {
 			return;
 		}
 		search = search.toLowerCase();
-		this.list = new ManagedList(
+		this.list = new ObservedList(
 			...list.filter((item) =>
 				[item.text, item.expr, item.dataDisplay].some((text) =>
 					text?.toLowerCase().includes(search),
@@ -303,7 +303,7 @@ export class ConsoleOverlayView extends ViewComposite {
 		});
 	}
 
-	protected onSetListFocus(e: ManagedEvent) {
+	protected onSetListFocus(e: ObservedEvent) {
 		while (e.inner) e = e.inner;
 		if (e.source instanceof UICell && e.source.accessibleRole === "list") {
 			e.source.content.last()?.requestFocus();

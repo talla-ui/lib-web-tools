@@ -1,4 +1,4 @@
-import { $bind, ui, View, ViewComposite } from "talla-ui";
+import { $bind, ui, View, UIComponent } from "talla-ui";
 import icons from "../icons";
 
 export function getViewForElement(elt?: Element) {
@@ -13,7 +13,7 @@ export function getViewForElement(elt?: Element) {
 	}
 }
 
-export class ViewPickerPanelView extends ViewComposite {
+export class ViewPickerPanelView extends UIComponent {
 	protected defineView() {
 		return ui.cell(
 			{

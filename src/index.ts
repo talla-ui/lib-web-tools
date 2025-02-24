@@ -1,4 +1,4 @@
-import { app, UIComponent } from "talla-ui";
+import { app, UIRenderable } from "talla-ui";
 import { LogModel } from "./LogModel";
 import { MainOverlayView } from "./views/MainOverlay/MainOverlayView";
 
@@ -13,7 +13,7 @@ let logModel: LogModel | undefined;
 export function showWebTools(
 	inspect?: unknown,
 	minimized?: boolean,
-	position?: UIComponent.Position,
+	position?: UIRenderable.Position,
 ) {
 	logModel ||= new LogModel();
 	if (instance && !instance.isUnlinked()) {

@@ -1,4 +1,4 @@
-import { app, LogWriter, ManagedList, ManagedObject } from "talla-ui";
+import { app, LogWriter, ObservedList, ObservedObject } from "talla-ui";
 import { PropertyInfo } from "./PropertyInfo";
 
 let format = new Intl.DateTimeFormat(undefined, {
@@ -6,7 +6,7 @@ let format = new Intl.DateTimeFormat(undefined, {
 	dateStyle: undefined,
 });
 
-export type LogMessage = ManagedObject & {
+export type LogMessage = ObservedObject & {
 	t: number;
 	time: string;
 	expr?: string;
@@ -19,7 +19,7 @@ export type LogMessage = ManagedObject & {
 	dataDisplay?: string;
 };
 
-export class LogModel extends ManagedObject {
+export class LogModel extends ObservedObject {
 	constructor() {
 		super();
 		app.log.addHandler(
@@ -57,10 +57,10 @@ export class LogModel extends ManagedObject {
 	}
 
 	numMessages = 0;
-	list = new ManagedList<LogMessage>();
+	list = new ObservedList<LogMessage>();
 
 	numErrors = 0;
-	errorList = new ManagedList<LogMessage>();
+	errorList = new ObservedList<LogMessage>();
 
 	private _makeListItem(m: LogWriter.LogMessageData, loc: string): LogMessage {
 		let expr = "";
@@ -77,7 +77,7 @@ export class LogModel extends ManagedObject {
 			text = (text ? text + " " : "") + m.data[0];
 			data = [];
 		}
-		return Object.assign(new ManagedObject(), {
+		return Object.assign(new ObservedObject(), {
 			t: Date.now(),
 			time: format.format(new Date()),
 			expr,

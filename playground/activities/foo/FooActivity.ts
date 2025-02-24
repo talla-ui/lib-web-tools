@@ -1,8 +1,8 @@
 import {
 	Activity,
 	app,
-	ManagedList,
-	ManagedObject,
+	ObservedList,
+	ObservedObject,
 	UIListView,
 	UIListViewEvent,
 	ViewEvent,
@@ -11,7 +11,7 @@ import { FooDetailActivity } from "./FooDetailActivity";
 import { NewFooActivity } from "./NewFooActivity";
 import screen from "./views/screen";
 
-export type FooItem = ManagedObject & {
+export type FooItem = ObservedObject & {
 	title: string;
 	quantity: number;
 	weight: number;
@@ -32,7 +32,12 @@ export class FooActivity extends Activity {
 			let weight = Math.floor(Math.random() * 100);
 			let total = quantity * weight;
 			this.items.add(
-				Object.assign(new ManagedObject(), { title, quantity, weight, total }),
+				Object.assign(new ObservedObject(), {
+					title,
+					quantity,
+					weight,
+					total,
+				}),
 			);
 		}
 	}
@@ -40,7 +45,7 @@ export class FooActivity extends Activity {
 	title = "Foo";
 	navigationPageId = "foo";
 
-	items = new ManagedList<FooItem>();
+	items = new ObservedList<FooItem>();
 	detail?: FooDetailActivity;
 
 	createView() {

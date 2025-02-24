@@ -2,12 +2,12 @@ import {
 	Activity,
 	ActivityList,
 	app,
-	ManagedEvent,
+	ObservedEvent,
 	UIButton,
-	UIComponent,
+	UIRenderable,
 	UIConditionalView,
 	View,
-	ViewComposite,
+	UIComponent,
 	ViewEvent,
 } from "talla-ui";
 import { LogModel } from "../../LogModel";
@@ -19,7 +19,7 @@ import { InspectPanelView } from "../InspectPanel/InspectPanelView";
 import { ViewPickerPanelView } from "../ViewPickerPanel/ViewPickerPanelView";
 import view from "./view";
 
-export class MainOverlayView extends ViewComposite {
+export class MainOverlayView extends UIComponent {
 	constructor(logModel: LogModel, minimized?: boolean) {
 		super();
 		this.log = logModel;
@@ -36,7 +36,7 @@ export class MainOverlayView extends ViewComposite {
 
 	mode?: "index" | "inspect" | "picker" | "minimized" = "index";
 	docked = false;
-	overlayPosition: UIComponent.Position = {
+	overlayPosition: UIRenderable.Position = {
 		bottom: 16,
 		left: 16,
 		gravity: "overlay",
@@ -44,7 +44,7 @@ export class MainOverlayView extends ViewComposite {
 
 	indexView = this.attach(new IndexPanelView(), { delegate: this });
 	inspectView = this.attach(new InspectPanelView(), { delegate: this });
-	pickerView?: ViewComposite;
+	pickerView?: UIComponent;
 	consoleView?: ConsoleOverlayView;
 	log: LogModel;
 
@@ -139,7 +139,7 @@ export class MainOverlayView extends ViewComposite {
 		this.saveState();
 	}
 
-	setPosition(position: UIComponent.Position) {
+	setPosition(position: UIRenderable.Position) {
 		if (this.docked) return;
 		this.overlayPosition = { ...position, gravity: "overlay" };
 	}
@@ -327,22 +327,22 @@ export class MainOverlayView extends ViewComposite {
 		this.clearPicker();
 	}
 
-	protected onShowFloat(e: ManagedEvent) {
+	protected onShowFloat(e: ObservedEvent) {
 		this.showFloat(e.data.object, String(e.data.title || "") || undefined);
 	}
 
-	protected onInspectObject(e: ManagedEvent) {
+	protected onInspectObject(e: ObservedEvent) {
 		this.showInspect(e.data.object);
 	}
 
-	protected onHighlightView(e: ManagedEvent) {
+	protected onHighlightView(e: ObservedEvent) {
 		let view = e.data.view as View | undefined;
 		this._highlightBox?.remove();
 		this._highlightElt = undefined;
-		while (view instanceof ViewComposite || view instanceof UIConditionalView) {
+		while (view instanceof UIComponent || view instanceof UIConditionalView) {
 			view = view.body;
 		}
-		if (!(view instanceof UIComponent)) return;
+		if (!(view instanceof UIRenderable)) return;
 		let elt = view.lastRenderOutput?.element;
 		if (!(elt instanceof HTMLElement)) return;
 		this._highlightElt = elt;
