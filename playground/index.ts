@@ -1,9 +1,8 @@
 import { setWebToolsToggleKey, showWebTools } from "@talla-ui/lib-web-tools";
 import { useWebContext } from "@talla-ui/web-handler";
 import { ui } from "talla-ui";
-import { BarActivity } from "./activities/bar/BarActivity";
-import { FooActivity } from "./activities/foo/FooActivity";
-import { MainActivity } from "./activities/main/MainActivity";
+import { BarActivity } from "./activities/bar";
+import { FooActivity } from "./activities/foo";
 
 const app = useWebContext((options) => {
 	options.darkTheme = options.theme.clone();
@@ -25,6 +24,5 @@ app.navigation.listen((e) => {
 	}
 });
 
-app.addActivity(new MainActivity(), true);
 app.addActivity(new FooActivity());
 app.addActivity(new BarActivity());

@@ -3,13 +3,11 @@ import {
 	app,
 	ObservedList,
 	ObservedObject,
-	UIListView,
 	UIListViewEvent,
-	ViewEvent,
 } from "talla-ui";
-import { FooDetailActivity } from "./FooDetailActivity";
-import { NewFooActivity } from "./NewFooActivity";
-import screen from "./views/screen";
+import { FooDetailActivity } from "./foo-detail";
+import { NewFooActivity } from "./foo-new";
+import fooView from "./foo.view";
 
 export type FooItem = ObservedObject & {
 	title: string;
@@ -49,8 +47,7 @@ export class FooActivity extends Activity {
 	detail?: FooDetailActivity;
 
 	createView() {
-		this.setRenderMode("none");
-		return screen.create();
+		return fooView.create();
 	}
 
 	onGoToItem(e: UIListViewEvent<FooItem>) {

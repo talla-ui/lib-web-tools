@@ -1,6 +1,6 @@
 import { Activity } from "talla-ui";
-import detail from "./views/detail";
-import { FooItem } from "./FooActivity";
+import { FooItem } from "./foo";
+import fooDetailView from "./foo-detail.view";
 
 export class FooDetailActivity extends Activity {
 	constructor(public item: FooItem) {
@@ -9,7 +9,6 @@ export class FooDetailActivity extends Activity {
 	}
 
 	createView() {
-		this.setRenderMode("none");
-		return detail.create();
+		return fooDetailView.create();
 	}
 }

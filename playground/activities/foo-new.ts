@@ -1,6 +1,6 @@
 import { Activity, FormContext, ObservedObject, app } from "talla-ui";
-import newDialog from "./views/new-dialog";
-import { FooItem } from "./FooActivity";
+import { FooItem } from "./foo";
+import fooNewView from "./foo-new.view";
 
 export class NewFooActivity extends Activity {
 	showPage = !app.renderer?.viewport.col3;
@@ -19,7 +19,7 @@ export class NewFooActivity extends Activity {
 
 	protected createView() {
 		this.setRenderMode(this.showPage ? "page" : "dialog");
-		return newDialog.create();
+		return fooNewView.create();
 	}
 
 	onSave() {

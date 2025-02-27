@@ -1,5 +1,5 @@
 import { Activity, app } from "talla-ui";
-import screen from "./screen";
+import barView from "./bar.view";
 
 export class BarActivity extends Activity {
 	title = "Bar";
@@ -8,8 +8,7 @@ export class BarActivity extends Activity {
 	count = 0;
 
 	createView() {
-		this.setRenderMode("none");
-		return screen.create();
+		return barView.create();
 	}
 
 	onIncrementCount() {

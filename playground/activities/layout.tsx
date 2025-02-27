@@ -1,10 +1,9 @@
 import {
-	$viewport,
 	$navigation,
+	$viewport,
 	ui,
-	UIIconResource,
 	UIComponent,
-	$activity,
+	UIIconResource,
 } from "talla-ui";
 
 const NavButton = UIComponent.define(
@@ -41,7 +40,7 @@ const MobileNavButton = UIComponent.define(
 	),
 );
 
-export default (
+export const LayoutComponent = UIComponent.define({}, (_, ...content) => (
 	<cell
 		layout={{ axis: "horizontal" }}
 		background={ui.color.BACKGROUND.contrast(-0.05)}
@@ -61,7 +60,7 @@ export default (
 		</column>
 		<scroll>
 			<cell background={ui.color.BACKGROUND} borderRadius={8}>
-				<render view={$activity("page.view")} />
+				{...content}
 			</cell>
 		</scroll>
 
@@ -77,4 +76,4 @@ export default (
 			</row>
 		</cell>
 	</cell>
-);
+));
