@@ -29,6 +29,26 @@ const BUILTINS = new Map<Function, string[]>([
 	[UIListView, ["items"]],
 ]);
 
+class CSSComputedStyleMap {
+	constructor(private element: HTMLElement) {}
+
+	getPropertyMap() {
+		let map = new Map<string, (it: PropertyInfo) => PropertyInfo>();
+		let style = this.element.style;
+		let str = Array.from(style)
+			.map((key) => key + ": " + style.getPropertyValue(key) + ";")
+			.join("\n");
+		map.set("[inline styles]", (it) => it.setValue(str, true));
+		let computedStyle = getComputedStyle(this.element);
+		for (let key of Array.from(computedStyle)) {
+			let value = computedStyle.getPropertyValue(key);
+			if (!value) continue;
+			map.set(key, (it) => it.setValue(value, true));
+		}
+		return map;
+	}
+}
+
 const PROMISE_PENDING = Symbol("PROMISE_PENDING");
 const PROMISE_ERROR = Symbol("PROMISE_ERROR");
 const _promiseValues = new WeakMap<Promise<any>, any>();
@@ -110,6 +130,9 @@ export class PropertyInfo extends ObservedObject {
 				)
 			);
 		}
+		if (value instanceof CSSComputedStyleMap) {
+			return "<CSS styles>";
+		}
 		if (value instanceof Node) {
 			return (
 				`<${value.nodeName.toLowerCase()}>` +
@@ -181,6 +204,9 @@ export class PropertyInfo extends ObservedObject {
 					["isMirrorRtl()", (it) => it.setValue(value.isMirrorRTL(), true)],
 				]);
 			}
+			if (value instanceof CSSComputedStyleMap) {
+				return value.getPropertyMap();
+			}
 		}
 		let result: PropertyMap = new Map();
 		if (typeof value === "object" && value) {
@@ -217,6 +243,15 @@ export class PropertyInfo extends ObservedObject {
 				isPrototype = true;
 				cur = Object.getPrototypeOf(cur);
 				if (cur === Object.prototype || cur === ObservedObject.prototype) break;
+			}
+			if (value instanceof UIRenderable) {
+				let element = value.lastRenderOutput?.element as HTMLElement;
+				if (element) {
+					result.set("<element>", (it) => it.setValue(element, true));
+					result.set("<css>", (it) =>
+						it.setValue(new CSSComputedStyleMap(element), true),
+					);
+				}
 			}
 		}
 		return result;

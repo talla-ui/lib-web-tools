@@ -15,6 +15,8 @@ import {
 import { PropertyInfo } from "../../PropertyInfo";
 import icons from "../icons";
 
+const MAX_ITEMS = 500;
+
 export class InspectPanelView extends UIComponent.define({
 	object: undefined as unknown,
 }) {
@@ -209,7 +211,7 @@ export class InspectPanelView extends UIComponent.define({
 			let map = PropertyInfo.getPropertyMap(object);
 			let keys = [...map.keys()];
 			let prev: PropertyInfo | undefined;
-			for (let key of keys.slice(0, 200)) {
+			for (let key of keys.slice(0, MAX_ITEMS)) {
 				let item = existing.get(key) || new PropertyInfo(key);
 				item = map.get(key)!(item);
 				if (prev && !prev.listItem && item.listItem) prev.isList = true;
@@ -217,8 +219,10 @@ export class InspectPanelView extends UIComponent.define({
 				list.push(item);
 				prev = item;
 			}
-			if (keys.length > 200) {
-				privItems.push(new PropertyInfo("..." + (keys.length - 200) + " more"));
+			if (keys.length > MAX_ITEMS) {
+				privItems.push(
+					new PropertyInfo("..." + (keys.length - MAX_ITEMS) + " more"),
+				);
 			}
 			if (keys.length === 0) {
 				privItems.push(new PropertyInfo("<empty>"));

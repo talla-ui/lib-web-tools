@@ -9,7 +9,8 @@ const app = useWebContext((options) => {
 	options.darkTheme.colors.set("Background", ui.color("#111"));
 });
 
-setWebToolsToggleKey("I", { ctrl: true });
+setWebToolsToggleKey("I", { ctrl: true, shift: true });
+setWebToolsToggleKey("C", { ctrl: true, shift: true }, true);
 showWebTools(undefined, true);
 
 app.log.debug("App started", app.navigation.pageId);

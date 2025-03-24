@@ -4,19 +4,19 @@ import {
 	app,
 	ObservedEvent,
 	UIButton,
-	UIRenderable,
-	UIConditionalView,
-	View,
 	UIComponent,
+	UIRenderable,
+	View,
 	ViewEvent,
 } from "talla-ui";
 import { LogModel } from "../../LogModel";
-import { ConsoleOverlayView } from "../ConsoleOverlay/ConsoleOverlayView";
 import { ClickForegroundEffect } from "../ClickForegroundEffect";
+import { ConsoleOverlayView } from "../ConsoleOverlay/ConsoleOverlayView";
 import { FloatOverlayView } from "../FloatOverlay/FloatOverlayView";
 import { IndexPanelView } from "../IndexPanel/IndexPanelView";
 import { InspectPanelView } from "../InspectPanel/InspectPanelView";
 import { ViewPickerPanelView } from "../ViewPickerPanel/ViewPickerPanelView";
+import { DOMHighlight } from "./DOMHighlight";
 import view from "./view";
 
 export class MainOverlayView extends UIComponent {
@@ -199,8 +199,7 @@ export class MainOverlayView extends UIComponent {
 	clearPicker() {
 		this.pickerView?.unlink();
 		this.pickerView = undefined;
-		this._highlightBox?.remove();
-		this._highlightElt = undefined;
+		this._domHighlight.clear();
 	}
 
 	protected beforeRender() {
@@ -214,8 +213,7 @@ export class MainOverlayView extends UIComponent {
 	}
 
 	protected beforeUnlink() {
-		this._highlightBox?.remove();
-		this._highlightElt = undefined;
+		this._domHighlight.clear();
 	}
 
 	protected onClose() {
@@ -336,40 +334,7 @@ export class MainOverlayView extends UIComponent {
 	}
 
 	protected onHighlightView(e: ObservedEvent) {
-		let view = e.data.view as View | undefined;
-		this._highlightBox?.remove();
-		this._highlightElt = undefined;
-		while (view instanceof UIComponent || view instanceof UIConditionalView) {
-			view = view.body;
-		}
-		if (!(view instanceof UIRenderable)) return;
-		let elt = view.lastRenderOutput?.element;
-		if (!(elt instanceof HTMLElement)) return;
-		this._highlightElt = elt;
-		let highlightBox = this._highlightBox || document.createElement("div");
-		this._highlightBox = highlightBox;
-		highlightBox.dataset.name = "WebToolsHighlight";
-		highlightBox.style.position = "fixed";
-		highlightBox.style.background = "rgba(0, 136, 255, 0.3)";
-		highlightBox.style.boxShadow = "0 0 0px 2px #08f";
-		highlightBox.style.pointerEvents = "none";
-		highlightBox.style.zIndex = "1000";
-		const update = () => {
-			if (this._highlightElt !== elt) return;
-			let rect = elt.getBoundingClientRect();
-			if (!rect.x && !rect.y && !rect.width && !rect.height) return;
-			highlightBox.style.top = rect.top + "px";
-			highlightBox.style.left = rect.left + "px";
-			highlightBox.style.width = rect.width + "px";
-			highlightBox.style.height = rect.height + "px";
-			let overlay = document.querySelector("[data-name=WebToolsOverlay]");
-			while (overlay && overlay?.parentNode !== document.body) {
-				overlay = overlay.parentNode as any;
-			}
-			document.body.insertBefore(highlightBox, overlay);
-			setTimeout(update, 100);
-		};
-		update();
+		this._domHighlight.highlight(e.data.view);
 	}
 
 	private _fixElementOrder() {
@@ -411,8 +376,7 @@ export class MainOverlayView extends UIComponent {
 		}
 	}
 
-	_highlightBox?: HTMLElement;
-	_highlightElt?: HTMLElement;
+	_domHighlight = new DOMHighlight();
 	_mobileBgBox?: HTMLElement;
 	_wasDocked?: "left" | "right" | "mobile";
 	_mobileSize?: "small" | "normal";

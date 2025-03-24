@@ -42,6 +42,7 @@ export function showWebTools(
 export function setWebToolsToggleKey(
 	key: string,
 	modifiers?: { ctrl?: boolean; shift?: boolean; alt?: boolean },
+	selectElement?: boolean,
 ) {
 	logModel ||= new LogModel();
 	window.addEventListener(
@@ -51,6 +52,11 @@ export function setWebToolsToggleKey(
 			if (!!modifiers?.ctrl !== !!e.ctrlKey) return;
 			if (!!modifiers?.shift !== !!e.shiftKey) return;
 			if (!!modifiers?.alt !== !!e.altKey) return;
+			if (selectElement) {
+				showWebTools(undefined);
+				instance?.showPicker();
+				return;
+			}
 			if (instance && !instance.isUnlinked() && instance.mode !== "minimized") {
 				if (instance.docked) instance.undock();
 				instance.unlink();
