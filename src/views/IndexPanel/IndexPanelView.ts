@@ -1,3 +1,4 @@
+import { StringConvertible } from "@talla-ui/util";
 import {
 	$bind,
 	$either,
@@ -7,13 +8,12 @@ import {
 	app,
 	ObservedList,
 	ObservedObject,
-	StringConvertible,
 	ui,
-	UIListViewEvent,
 	UIComponent,
+	UIListViewEvent,
 } from "talla-ui";
-import { getViewForElement } from "../ViewPickerPanel/ViewPickerPanelView";
 import icons from "../icons";
+import { getViewForElement } from "../ViewPickerPanel/ViewPickerPanelView";
 
 class InspectableObjectItem extends ObservedObject {
 	label?: string;
@@ -39,15 +39,16 @@ const FoldView = UIComponent.define(
 						padding: { x: 6, y: 8 },
 						onClick: "ToggleFold",
 					},
-					ui.label({
-						icon: $view
-							.boolean("folded")
-							.select(ui.icon.CHEVRON_NEXT, ui.icon.CHEVRON_DOWN),
+					ui.image({
+						icon: $view("folded").select(
+							ui.icon.CHEVRON_NEXT,
+							ui.icon.CHEVRON_DOWN,
+						),
 					}),
 					ui.label({ text: $view("title"), bold: true }),
 				),
 			),
-			ui.conditional({ state: $view.not("folded") }, ui.cell(...content)),
+			ui.show({ state: $view.not("folded") }, ui.cell(...content)),
 		),
 	(v) => ({
 		ToggleFold() {
@@ -74,20 +75,20 @@ const InfoDetailRow = UIComponent.define(
 			},
 		},
 		ui.row(
-			ui.label($view.string("label"), {
+			ui.label($view("label"), {
 				hidden: $view.not("label"),
 				fontSize: 12,
 				width: 120,
 			}),
-			ui.label($view.string("value").or($view("showNone").select("<none>")), {
+			ui.label($view("value").or($view("showNone").select("<none>")), {
 				fontSize: 12,
 				dim: $view.not("value"),
 				grow: true,
 			}),
-			ui.label({
+			ui.image({
 				hidden: $view.not("chevron"),
 				icon: ui.icon.CHEVRON_NEXT,
-				iconSize: 20,
+				height: 20,
 			}),
 		),
 	),
@@ -131,7 +132,7 @@ export class IndexPanelView extends UIComponent {
 					FoldView,
 					{ title: "Activities" },
 					ui.list(
-						{ items: $view.list("activities") },
+						{ items: $view("activities") },
 						ui.use(InfoDetailRow, {
 							value: $list("item.label"),
 							chevron: true,
@@ -144,7 +145,7 @@ export class IndexPanelView extends UIComponent {
 					FoldView,
 					{ title: "Views" },
 					ui.list(
-						{ items: $view.list("views") },
+						{ items: $view("views") },
 						ui.use(InfoDetailRow, {
 							value: $list("item.label"),
 							chevron: true,
@@ -159,13 +160,13 @@ export class IndexPanelView extends UIComponent {
 					ui.column(
 						ui.use(InfoDetailRow, {
 							label: "Page ID",
-							value: $view.string("navigation.pageId"),
+							value: $view("navigation.pageId"),
 							showNone: true,
 							onClick: "ShowNavigation",
 						}),
 						ui.use(InfoDetailRow, {
 							label: "... detail",
-							value: $view.string("navigation.detail"),
+							value: $view("navigation.detail"),
 							showNone: true,
 							onClick: "ShowNavigation",
 						}),
@@ -178,40 +179,38 @@ export class IndexPanelView extends UIComponent {
 					ui.column(
 						ui.use(InfoDetailRow, {
 							label: "Width",
-							value: $view.string("viewport.width"),
+							value: $view("viewport.width"),
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Height",
-							value: $view.string("viewport.height"),
+							value: $view("viewport.height"),
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Aspect",
-							value: $view
-								.boolean("viewport.portrait")
-								.select("Portrait", "Landscape"),
+							value: $view("viewport.portrait").select("Portrait", "Landscape"),
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Cols",
 							value: $either(
-								$view.boolean("viewport.col5").select("5+"),
-								$view.boolean("viewport.col4").select("4"),
-								$view.boolean("viewport.col3").select("3"),
-								$view.boolean("viewport.col2").select("2"),
+								$view("viewport.col5").select("5+"),
+								$view("viewport.col4").select("4"),
+								$view("viewport.col3").select("3"),
+								$view("viewport.col2").select("2"),
 							).else("1"),
 						}),
 						ui.use(InfoDetailRow, {
 							label: "Rows",
 							value: $either(
-								$view.boolean("viewport.row5").select("5+"),
-								$view.boolean("viewport.row4").select("4"),
-								$view.boolean("viewport.row3").select("3"),
-								$view.boolean("viewport.row2").select("2"),
+								$view("viewport.row5").select("5+"),
+								$view("viewport.row4").select("4"),
+								$view("viewport.row3").select("3"),
+								$view("viewport.row2").select("2"),
 							).else("1"),
 						}),
 					),
 				),
 				ui.cell({
-					hidden: $bind.boolean("docked"),
+					hidden: $bind("docked"),
 					effect: ui.effect("DragModal"),
 				}),
 			),

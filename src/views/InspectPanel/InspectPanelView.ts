@@ -28,7 +28,7 @@ export class InspectPanelView extends UIComponent.define({
 				ui.scroll(
 					{ onBeforeRender: "HistoryScrollRendered" },
 					ui.list(
-						{ items: $view.list("history") },
+						{ items: $view("history") },
 						ui.cell(
 							{
 								height: 32,
@@ -50,24 +50,22 @@ export class InspectPanelView extends UIComponent.define({
 								onMouseLeave: "HighlightLeave",
 							},
 							ui.row(
-								ui.label({
+								ui.image({
 									icon: $list("item.value")
 										.equals($view("object"))
 										.select(ui.icon.CHEVRON_DOWN, ui.icon.CHEVRON_NEXT),
 									style: { shrink: 0 },
 								}),
-								ui.label($strf(".%s", $list.string("item.key")), {
+								ui.label($strf(".%s", $list("item.key")), {
 									hidden: $list.not("item.key"),
 									style: { shrink: 0 },
 									fontSize: 12,
 								}),
 								ui.spacer(),
-								ui.label($list.string("item.display"), {
+								ui.label($list("item.display"), {
 									dim: true,
 									fontSize: 12,
-									style: $list
-										.boolean("item.invalid")
-										.select({ strikeThrough: true }),
+									style: $list("item.invalid").select({ strikeThrough: true }),
 								}),
 							),
 						),
@@ -77,7 +75,7 @@ export class InspectPanelView extends UIComponent.define({
 			ui.scroll(
 				{ onBeforeRender: "PropertyScrollRendered" },
 				ui.list(
-					{ items: $view.list("properties") },
+					{ items: $view("properties") },
 					ui.cell(
 						{
 							height: 32,
@@ -88,9 +86,9 @@ export class InspectPanelView extends UIComponent.define({
 								borderColor: ui.color.SEPARATOR,
 								css: { cursor: "pointer" },
 							},
-							background: $list
-								.boolean("item.listItem")
-								.select(ui.color.TEXT.alpha(0.05)),
+							background: $list("item.listItem").select(
+								ui.color.TEXT.alpha(0.05),
+							),
 							layout: {
 								axis: "horizontal",
 								gravity: "center",
@@ -100,34 +98,32 @@ export class InspectPanelView extends UIComponent.define({
 							onMouseEnter: "HighlightEnter",
 							onMouseLeave: "HighlightLeave",
 						},
-						ui.label({
+						ui.image({
 							hidden: $list.not("item.isList"),
 							icon: ui.icon.CHEVRON_DOWN,
-							iconSize: 16,
-							position: { gravity: "overlay", top: 4, start: 104 },
+							height: 16,
+							position: { gravity: "overlay", top: 8, start: 104 },
 						}),
-						ui.label({
+						ui.image({
 							hidden: $list.not("item.view"),
 							icon: icons.selectElement,
-							iconSize: 16,
+							height: 16,
 							iconColor: ui.color.PRIMARY.alpha(0.8),
-							position: { gravity: "overlay", top: 4, end: 8 },
+							position: { gravity: "overlay", top: 8, end: 8 },
 						}),
-						ui.label($list.string("item.key"), {
-							hidden: $list.boolean("item.listItem"),
+						ui.label($list("item.key"), {
+							hidden: $list("item.listItem"),
 							style: { width: 120, shrink: 0 },
 							padding: { end: 8 },
 							fontSize: 12,
-							dim: $list.boolean("item.private"),
-							bold: $list.boolean("item.builtin"),
+							dim: $list("item.private"),
+							bold: $list("item.builtin"),
 						}),
-						ui.label($list.string("item.display"), {
-							style: $list
-								.boolean("item.invalid")
-								.select({ strikeThrough: true }),
+						ui.label($list("item.display"), {
+							style: $list("item.invalid").select({ strikeThrough: true }),
 							fontSize: 12,
-							padding: $list.boolean("item.listItem").select({ start: 120 }),
-							dim: $list.boolean("item.private").else(0.85),
+							padding: $list("item.listItem").select({ start: 120 }),
+							dim: $list("item.private").else(0.85),
 						}),
 					),
 				),
@@ -138,7 +134,7 @@ export class InspectPanelView extends UIComponent.define({
 						padding: 8,
 					},
 					ui.label("value", { bold: true, dim: true, fontSize: 12 }),
-					ui.label($view.string("displayValue"), {
+					ui.label($view("displayValue"), {
 						style: {
 							fontFamily: "monospace",
 							fontSize: 12,
@@ -149,7 +145,7 @@ export class InspectPanelView extends UIComponent.define({
 					}),
 				),
 				ui.cell({
-					hidden: $bind.boolean("docked"),
+					hidden: $bind("docked"),
 					effect: ui.effect("DragModal"),
 					style: { shrink: 1 },
 				}),

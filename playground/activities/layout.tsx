@@ -27,15 +27,15 @@ const MobileNavButton = UIComponent.define(
 	{ page: "", title: "", icon: undefined as UIIconResource | undefined },
 	({ page, title, icon }) => (
 		<button
-			style={ui.style.BUTTON_PLAIN.override({
-				width: 80,
-				height: 60,
-				textAlign: "center",
+			style={ui.style.BUTTON_ICONTOP.extend({
+				background: ui.color.CLEAR,
+				minWidth: 80,
+				height: 64,
 			})}
 			navigateTo={page}
 			icon={icon}
 			pressed={$navigation("pageId").matches(page)}
-			label={"\n" + title}
+			label={title}
 		/>
 	),
 );
@@ -65,7 +65,7 @@ export const LayoutComponent = UIComponent.define({}, (_, ...content) => (
 		</scroll>
 
 		<cell
-			hidden={$viewport.boolean("col3")}
+			hidden={$viewport("col3")}
 			background={ui.color.BACKGROUND}
 			position={{ gravity: "overlay", bottom: 0, left: 0, right: 0 }}
 		>

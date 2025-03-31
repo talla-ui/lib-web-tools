@@ -5,9 +5,10 @@ export default (
 		layout={{ distribution: "start" }}
 		position={{ gravity: "center" }}
 		style={{ width: 450, maxWidth: "100%" }}
-		padding={$activity
-			.boolean("showPage")
-			.select({ x: 12, top: 48 }, { x: 20, top: 8, bottom: 20 })}
+		padding={$activity("showPage").select(
+			{ x: 12, top: 48 },
+			{ x: 20, top: 8, bottom: 20 },
+		)}
 		onEnterKeyPress="Save"
 	>
 		<row height={48}>
@@ -43,9 +44,9 @@ export default (
 		</column>
 
 		<spacer height={32} hidden={$activity.not("showPage")} />
-		<separator margin={24} hidden={$activity.boolean("showPage")} />
+		<separator margin={24} hidden={$activity("showPage")} />
 
-		<row align="end" hidden={$activity.boolean("showPage")}>
+		<row align="end" hidden={$activity("showPage")}>
 			<button onClick="Save" primary>
 				Save
 			</button>

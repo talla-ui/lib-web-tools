@@ -35,7 +35,7 @@ export class FloatOverlayView extends UIComponent {
 				},
 				ui.row(
 					{ padding: { start: 8, end: 4, y: 2 }, spacing: 4 },
-					ui.label($view.string("title"), { bold: true }),
+					ui.label($view("title"), { bold: true }),
 					ui.spacer(),
 					ui.button({
 						icon: icons.copy,
@@ -52,7 +52,7 @@ export class FloatOverlayView extends UIComponent {
 				),
 			),
 			ui.separator({ margin: 0 }),
-			ui.scroll(ui.renderView({ view: $view("inspectView") })),
+			ui.scroll(ui.show({ insert: $view("inspectView") })),
 		);
 	}
 

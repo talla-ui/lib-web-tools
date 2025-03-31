@@ -22,27 +22,27 @@ const toolbarRow = ui.row(
 		icon: icons.information,
 		iconSize: 20,
 		style: ui.style.BUTTON_ICON,
-		pressed: $view.string("mode").matches("index"),
+		pressed: $view("mode").matches("index"),
 		onClick: "ShowIndex",
 	}),
 	ui.button({
 		icon: icons.treeStructure,
 		iconSize: 20,
 		style: ui.style.BUTTON_ICON,
-		pressed: $view.string("mode").matches("inspect"),
+		pressed: $view("mode").matches("inspect"),
 		onClick: "ShowInspector",
 	}),
 	ui.button({
 		icon: icons.selectElement,
 		iconSize: 20,
 		style: ui.style.BUTTON_ICON,
-		pressed: $view.string("mode").matches("picker"),
+		pressed: $view("mode").matches("picker"),
 		onClick: "ShowPicker",
 	}),
 	ui.spacer(4),
 	ui.button({
 		hidden: $view.not("log.numErrors"),
-		label: $view.number("log.numErrors"),
+		label: $view("log.numErrors"),
 		style: badgeButtonStyle,
 		onClick: "ShowErrors",
 	}),
@@ -54,7 +54,7 @@ const toolbarRow = ui.row(
 		onClick: "MoreMenu",
 	}),
 	ui.button({
-		hidden: $view.boolean("docked"),
+		hidden: $view("docked"),
 		icon: ui.icon.CHEVRON_DOWN,
 		iconSize: 20,
 		style: ui.style.BUTTON_ICON,
@@ -67,7 +67,7 @@ export default ui.cell(
 		name: "WebToolsOverlay",
 		effect: ClickForegroundEffect,
 		position: $view("overlayPosition"),
-		style: $view.boolean("docked").select(
+		style: $view("docked").select(
 			{
 				width: 320,
 				background: ui.color.BACKGROUND,
@@ -131,7 +131,7 @@ export default ui.cell(
 		{
 			animationDuration: 100,
 			style: $either(
-				$view.boolean("docked").select({ shrink: 1 }),
+				$view("docked").select({ shrink: 1 }),
 				$view("mode")
 					.matches("minimized")
 					.select(
@@ -141,17 +141,20 @@ export default ui.cell(
 			),
 		},
 		ui.separator({ margin: 0 }),
-		ui.renderView({
-			view: $view("mode").matches("index").and("indexView"),
+		ui.show({
+			insert: $view("mode").matches("index").and("indexView").else(undefined),
 		}),
-		ui.renderView({
-			view: $view("mode").matches("inspect").and("inspectView"),
+		ui.show({
+			insert: $view("mode")
+				.matches("inspect")
+				.and("inspectView")
+				.else(undefined),
 		}),
-		ui.renderView({
-			view: $view("mode").matches("picker").and("pickerView"),
+		ui.show({
+			insert: $view("mode").matches("picker").and("pickerView").else(undefined),
 		}),
 		ui.cell({
-			hidden: $view.boolean("docked"),
+			hidden: $view("docked"),
 			style: { height: 4 },
 			position: { gravity: "overlay", bottom: 0, left: 0, right: 0 },
 			effect: ui.effect("DragModal"),

@@ -69,16 +69,16 @@ export class ConsoleOverlayView extends UIComponent {
 						label: "errors",
 						width: "auto",
 						style: filterButtonStyle,
-						pressed: $view.boolean("errorFilter"),
+						pressed: $view("errorFilter"),
 						onClick: "FilterError",
 					}),
 					ui.row(
 						{ spacing: 0 },
-						ui.label({
+						ui.image({
 							icon: ui.icon.SEARCH,
-							iconSize: 16,
+							height: 16,
 							iconColor: ui.color.TEXT.alpha(0.5),
-							position: { gravity: "overlay", top: 4, start: 4 },
+							position: { gravity: "overlay", top: 8, start: 4 },
 							onPress: "RequestFocusNext",
 						}),
 						ui.textField({
@@ -178,13 +178,16 @@ export class ConsoleOverlayView extends UIComponent {
 			ui.separator({ margin: 0 }),
 			ui.row(
 				{ spacing: 0, padding: 4, height: 36 },
-				ui.label({
+				ui.image({
 					icon: ui.icon.CHEVRON_NEXT,
-					dim: $view.boolean("errorFilter"),
+					iconColor: $view("errorFilter").select(
+						ui.color.TEXT.alpha(0.5),
+						ui.color.TEXT,
+					),
 					position: { gravity: "overlay", top: 6, left: 4 },
 				}),
 				ui.textField({
-					hidden: $view.boolean("errorFilter"),
+					hidden: $view("errorFilter"),
 					width: "100%",
 					style: ui.style.TEXTFIELD.override({
 						borderThickness: 0,

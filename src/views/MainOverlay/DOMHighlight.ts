@@ -1,10 +1,4 @@
-import {
-	ui,
-	UIComponent,
-	UIConditionalView,
-	UIRenderable,
-	View,
-} from "talla-ui";
+import { ui, UIComponent, UIRenderable, UIShowView, View } from "talla-ui";
 
 export class DOMHighlight {
 	clear() {
@@ -18,7 +12,7 @@ export class DOMHighlight {
 		if (!view || !(view instanceof View)) return;
 
 		// find the actual rendered view
-		while (view instanceof UIComponent || view instanceof UIConditionalView) {
+		while (view instanceof UIComponent || view instanceof UIShowView) {
 			view = view.body;
 		}
 		if (!(view instanceof UIRenderable)) return;

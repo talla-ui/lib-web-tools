@@ -29,6 +29,7 @@
 	},
 	"devDependencies": {
 		"@talla-ui/web-handler": "next",
+		"@talla-ui/util": "next",
 		"@talla-ui/lib-web-tools": "file:.",
 		"@types/node": "^22.0.0",
 		"prettier": "*",

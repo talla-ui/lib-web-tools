@@ -1,6 +1,6 @@
+import { LazyString } from "@talla-ui/util";
 import {
 	ObservedList,
-	LazyString,
 	UIColor,
 	UIRenderable,
 	ObservedObject,
@@ -9,11 +9,11 @@ import {
 	UIContainer,
 	UIButton,
 	UILabel,
-	UIConditionalView,
 	UIListView,
 	ActivityList,
 	UIIconResource,
 	View,
+	UIShowView,
 } from "talla-ui";
 
 type PropertyMap = Map<string, (it: PropertyInfo) => PropertyInfo>;
@@ -25,7 +25,7 @@ const BUILTINS = new Map<Function, string[]>([
 	[UIButton, ["label", "icon"]],
 	[UILabel, ["text", "icon"]],
 	[UILabel, ["text", "icon"]],
-	[UIConditionalView, ["state", "body"]],
+	[UIShowView, ["state", "body", "insert"]],
 	[UIListView, ["items"]],
 ]);
 

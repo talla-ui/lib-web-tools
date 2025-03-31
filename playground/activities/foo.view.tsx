@@ -9,7 +9,7 @@ export default (
 			style={{ width: "100%", maxWidth: 600 }}
 			position={{ gravity: "center" }}
 		>
-			<spacer hidden={$viewport.boolean("col3")} height={40} />
+			<spacer hidden={$viewport("col3")} height={40} />
 
 			<row height={48}>
 				<label bold fontSize={20}>
@@ -34,10 +34,10 @@ export default (
 				borderRadius={8}
 				grow={false}
 			>
-				<list items={$activity.list("items")}>
+				<list items={$activity("items")}>
 					<cell style={{ css: { cursor: "pointer" } }} onClick="GoToItem">
 						<row height={40} padding={{ start: 12, end: 8 }}>
-							<label text={$list.string("item.title")} grow />
+							<label text={$list("item.title")} grow />
 							<label icon={ui.icon.CHEVRON_NEXT} iconSize={20} />
 						</row>
 					</cell>
@@ -49,7 +49,7 @@ export default (
 				</list>
 			</cell>
 
-			<spacer hidden={$viewport.boolean("col3")} height={64} />
+			<spacer hidden={$viewport("col3")} height={80} />
 		</cell>
 	</LayoutComponent>
 );

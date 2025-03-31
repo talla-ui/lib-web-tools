@@ -21,7 +21,7 @@ export default (
 			style={{ width: "100%", maxWidth: 600 }}
 			position={{ gravity: "center" }}
 		>
-			<spacer hidden={$viewport.boolean("col3")} height={40} />
+			<spacer hidden={$viewport("col3")} height={40} />
 
 			<row height={48}>
 				<label bold fontSize={20}>

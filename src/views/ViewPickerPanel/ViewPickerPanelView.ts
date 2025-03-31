@@ -20,19 +20,18 @@ export class ViewPickerPanelView extends UIComponent {
 				padding: 8,
 			},
 			ui.cell({
-				hidden: $bind.boolean("docked"),
+				hidden: $bind("docked"),
 				effect: ui.effect("DragModal"),
 			}),
-			ui.label({
+			ui.image({
 				icon: icons.selectElement,
-				iconSize: 32,
+				height: 32,
 				iconColor: ui.color.PRIMARY.alpha(0.8),
-				align: "center",
 			}),
 			ui.spacer(0, 16),
 			ui.label("Select a view to inspect", { dim: true, align: "center" }),
 			ui.cell({
-				hidden: $bind.boolean("docked"),
+				hidden: $bind("docked"),
 				effect: ui.effect("DragModal"),
 			}),
 		);
