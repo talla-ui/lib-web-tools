@@ -113,7 +113,8 @@ export class ConsoleOverlayView extends UIComponent {
 							style: {
 								borderThickness: { top: 1 },
 								borderColor: ui.color.SEPARATOR,
-								css: { cursor: "pointer", outlineOffset: "-2px" },
+								cursor: "pointer",
+								css: { outlineOffset: "-2px" },
 							},
 							onRendered: "ItemRendered",
 							onClick: "ShowItem",

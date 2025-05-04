@@ -35,7 +35,7 @@ export default (
 				grow={false}
 			>
 				<list items={$activity("items")}>
-					<cell style={{ css: { cursor: "pointer" } }} onClick="GoToItem">
+					<cell style={{ cursor: "pointer" }} onClick="GoToItem">
 						<row height={40} padding={{ start: 12, end: 8 }}>
 							<label text={$list("item.title")} grow />
 							<label icon={ui.icon.CHEVRON_NEXT} iconSize={20} />

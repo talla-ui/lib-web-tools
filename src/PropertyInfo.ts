@@ -25,7 +25,7 @@ const BUILTINS = new Map<Function, string[]>([
 	[UIButton, ["label", "icon"]],
 	[UILabel, ["text", "icon"]],
 	[UILabel, ["text", "icon"]],
-	[UIShowView, ["state", "body", "insert"]],
+	[UIShowView, ["when", "body", "insert"]],
 	[UIListView, ["items"]],
 ]);
 

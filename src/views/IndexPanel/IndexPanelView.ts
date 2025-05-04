@@ -29,7 +29,7 @@ const FoldView = UIComponent.define(
 				{
 					textColor: ui.color.PRIMARY,
 					style: {
-						css: { cursor: "pointer" },
+						cursor: "pointer",
 						borderThickness: { bottom: 1 },
 						borderColor: ui.color.TEXT.alpha(0.3),
 					},
@@ -48,7 +48,7 @@ const FoldView = UIComponent.define(
 					ui.label({ text: $view("title"), bold: true }),
 				),
 			),
-			ui.show({ state: $view.not("folded") }, ui.cell(...content)),
+			ui.show({ when: $view.not("folded") }, ui.cell(...content)),
 		),
 	(v) => ({
 		ToggleFold() {
@@ -69,7 +69,7 @@ const InfoDetailRow = UIComponent.define(
 			padding: { x: 8, y: 4 },
 			style: {
 				height: 32,
-				css: { cursor: "pointer" },
+				cursor: "pointer",
 				borderThickness: { bottom: 1 },
 				borderColor: ui.color.SEPARATOR,
 			},
@@ -106,7 +106,7 @@ export class IndexPanelView extends UIComponent {
 					{ title: "Log" },
 					ui.cell(
 						{
-							style: { css: { cursor: "pointer" } },
+							style: { cursor: "pointer" },
 							onClick: "ShowConsole",
 						},
 						ui.row(

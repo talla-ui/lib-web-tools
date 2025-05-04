@@ -43,7 +43,7 @@ export class InspectPanelView extends UIComponent.define({
 								style: {
 									borderThickness: { bottom: 1 },
 									borderColor: ui.color.TEXT.alpha(0.5),
-									css: { cursor: "pointer" },
+									cursor: "pointer",
 								},
 								onClick: "HistoryClick",
 								onMouseEnter: "HighlightEnter",
@@ -84,7 +84,7 @@ export class InspectPanelView extends UIComponent.define({
 							style: {
 								borderThickness: { bottom: 1 },
 								borderColor: ui.color.SEPARATOR,
-								css: { cursor: "pointer" },
+								cursor: "pointer",
 							},
 							background: $list("item.listItem").select(
 								ui.color.TEXT.alpha(0.05),
