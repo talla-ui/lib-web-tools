@@ -334,7 +334,10 @@ export class MainOverlayView extends UIComponent {
 	}
 
 	protected onHighlightView(e: ObservedEvent) {
-		this._domHighlight.highlight(e.data.view);
+		this._domHighlight.highlight(e.data.view, {
+			left: this.docked && this._wasDocked === "left" ? "320px" : undefined,
+			right: this.docked && this._wasDocked === "right" ? "320px" : undefined,
+		});
 	}
 
 	private _fixElementOrder() {

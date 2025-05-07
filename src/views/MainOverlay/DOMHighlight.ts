@@ -7,7 +7,7 @@ export class DOMHighlight {
 		this._highlightElt = undefined;
 	}
 
-	highlight(view?: unknown) {
+	highlight(view: unknown, position: { left?: string; right?: string }) {
 		this.clear();
 		if (!view || !(view instanceof View)) return;
 
@@ -40,8 +40,8 @@ export class DOMHighlight {
 			let screenWidth = window.innerWidth;
 			let isTopRight =
 				rect.x > 100 && rect.right > screenWidth - 100 && rect.top < 40;
-			infoBox.style.right = isTopRight ? "auto" : "0";
-			infoBox.style.left = isTopRight ? "0" : "auto";
+			infoBox.style.right = isTopRight ? "auto" : position.right || "0";
+			infoBox.style.left = isTopRight ? position.left || "0" : "auto";
 			infoBox.innerHTML = this._getInfoText(view, rect);
 			document.body.insertBefore(highlightBox, overlay);
 			document.body.insertBefore(infoBox, overlay);
