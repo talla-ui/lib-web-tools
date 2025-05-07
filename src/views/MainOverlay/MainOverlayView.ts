@@ -367,15 +367,21 @@ export class MainOverlayView extends UIComponent {
 			return elt;
 		});
 
-		// move all other elements after the first overlay to the back
-		let cur = overlays[0];
-		let first = cur!;
+		// move all overlays to the back if needed
+		let cur: Element = overlays[0]!;
+		let hasOther = false;
 		while (cur) {
-			const nextElement = cur.nextElementSibling;
-			if (!overlays.includes(cur)) {
-				document.body.insertBefore(cur, first);
+			let nextElt = cur.nextElementSibling;
+			if (!nextElt) break;
+			cur = nextElt;
+			if (!overlays.includes(cur as any)) {
+				hasOther = true;
+				break;
 			}
-			cur = nextElement as any;
+		}
+		if (!hasOther) return;
+		for (let elt of overlays) {
+			document.body.insertBefore(elt, null);
 		}
 	}
 
