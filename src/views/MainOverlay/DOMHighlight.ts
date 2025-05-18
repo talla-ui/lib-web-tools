@@ -33,7 +33,7 @@ export class DOMHighlight {
 			highlightBox.style.left = rect.left + "px";
 			highlightBox.style.width = rect.width + "px";
 			highlightBox.style.height = rect.height + "px";
-			let overlay = document.querySelector("[data-name=WebToolsOverlay]");
+			let overlay = document.querySelector('[data-name^="WebTools"]');
 			while (overlay && overlay?.parentNode !== document.body) {
 				overlay = overlay.parentNode as any;
 			}
@@ -43,8 +43,8 @@ export class DOMHighlight {
 			infoBox.style.right = isTopRight ? "auto" : position.right || "0";
 			infoBox.style.left = isTopRight ? position.left || "0" : "auto";
 			infoBox.innerHTML = this._getInfoText(view, rect);
-			document.body.insertBefore(highlightBox, overlay);
 			document.body.insertBefore(infoBox, overlay);
+			document.body.insertBefore(highlightBox, infoBox);
 			setTimeout(update, 100);
 		};
 		update();
